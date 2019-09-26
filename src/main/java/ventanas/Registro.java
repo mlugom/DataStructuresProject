@@ -114,6 +114,9 @@ public class Registro {
                 wr.close();
                 bw.close();
         }
+        
+        
+        case 3:
 
     }
 }
