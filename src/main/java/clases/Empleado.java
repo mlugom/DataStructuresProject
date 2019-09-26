@@ -9,6 +9,11 @@ package clases;
  *
  * @author Manuel Esteban
  */
-public class Empleado {
+public class Empleado extends Usuario{
+
+    public Empleado(String nombre, int edad, int documento, boolean rol) {
+        super(nombre, edad, documento, rol);
+    }
+    
     
 }
