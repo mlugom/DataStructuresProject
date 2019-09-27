@@ -11,10 +11,14 @@ package clases;
  */
 public class Cliente extends Usuario{
     private Asiento asiento;
+    private Sala sala;
+    private Funcion funcion;
     
     public Cliente(String nombre, int edad, int documento, boolean rol) {
         super(nombre, edad, documento, rol);
         this.asiento = null;
+        this.sala = null;
+        this.funcion = null;
     }
 
     public Asiento getAsiento() {
@@ -24,5 +28,23 @@ public class Cliente extends Usuario{
     public void setAsiento(Asiento asiento) {
         this.asiento = asiento;
     }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+    }
+    
+    
     
 }

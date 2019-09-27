@@ -38,12 +38,28 @@ public class Registro {
         }
 
     }
+    public static Sala elegirSala(Sala[] salas, int hora){
+        for (int i = 0; i < salas.length; i++) {
+            for (int j = 0; j < salas[i].getFunciones().size(); j++) {
+                if(salas[i].getFunciones().get(j).getHora()!= hora){
+                    return salas[i];
+                }
+            }
+        }
+        return null;
+    }
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         ArrayList<Usuario> arreglo_empleados = new ArrayList<>();
         ArrayList<Usuario> arreglo_clientes = new ArrayList<>();
-        ArrayList<Usuario> arreglo_peliculas = new ArrayList<>();
+        ArrayList<Pelicula> arreglo_peliculas = new ArrayList<>();
+        Sala[] salas = new Sala[3];
+        for (int i = 0; i < 3; i++) {
+            salas[i] = new Sala(i+1);
+        }
+        Date fecha = new Date(2019,9,30);
+        int hora = 8;
 
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
@@ -100,16 +116,109 @@ public class Registro {
             int seleccion = sc.nextInt();
             switch (seleccion) {
                 case 1:
+                    boolean valido = false;
+                    boolean rolPrueba = false;
                     Thread.sleep(3000);
-                        limpiarPantalla();
-break;
+                    limpiarPantalla();
+                    
+                    System.out.println("Ingrese su documento");
+                    int id_prueba = sc.nextInt();
+                    for (int i = 0; i < arreglo_empleados.size(); i++) {
+                        if(id_prueba == arreglo_empleados.get(i).getDocumento()){
+                            valido = true;
+                            rolPrueba = true;
+                            break;
+                        }
+                    }
+                    if(!valido){
+                        for (int i = 0; i < arreglo_clientes.size(); i++) {
+                            if(id_prueba == arreglo_clientes.get(i).getDocumento()){
+                                valido = true;
+                                rolPrueba = false;
+                                break;
+                            }
+                        }
+                        System.out.println("Usuario no encontrado");
+                    }
+                    if(valido){
+                        if(rolPrueba){
+                            System.out.println("Bienvenido, señor(a) empleado/a. Seleccione la acción a realizar");
+                            System.out.println("1. Actualizar fecha");
+                            System.out.println("2. Actualizar hora");
+                            System.out.println("3. Actualizar peliculas");
+                            System.out.println("4. Terminar sesión");
+                            int selEmpleado = sc.nextInt();
+                            switch(selEmpleado){
+                                case 1:
+                                    System.out.print("Día: ");
+                                    int nuevoDia = sc.nextInt();
+                                    System.out.print("Mes: ");
+                                    int nuevoMes = sc.nextInt();
+                                    System.out.print("Año: ");
+                                    int nuevoAno = sc.nextInt();
+                                    fecha = new Date(nuevoAno,nuevoMes,nuevoDia);
+                                    break;
+                                case 2:
+                                    System.out.print("Hora: ");
+                                    int nuevaHora = sc.nextInt();
+                                    hora = nuevaHora;
+                                    break;
+                                case 3:
+                                    System.out.println("Seleccione accion");
+                                    System.out.println("1. Agregar pelicula");
+                                    System.out.println("2. Agregar horario");
+                                    int selPelicula = sc.nextInt();
+                                    switch(selPelicula){
+                                        case 1:
+                                            System.out.print("Ingrese título: ");
+                                            String titulo = sc.next();
+                                            System.out.print("Ingrese duracion en horas (no superior a 3): ");
+                                            int duracion = sc.nextInt();
+                                            System.out.print("Ingrese edad mínima: ");
+                                            int edadMinima = sc.nextInt();
+                                            arreglo_peliculas.add(new Pelicula(titulo,duracion,edadMinima));
+                                            System.out.println("Película agregada satisfactoriamente");
+                                            System.out.println("1. Agregar otra película");
+                                            System.out.println("2. Regresar");
+                                            break;
+                                        case 2:
+                                            if(arreglo_peliculas.isEmpty()){
+                                                System.out.println("No hay películas en cartelera");
+                                            }else{
+                                                System.out.println("Seleccione película");
+                                                for (int i = 0; i < arreglo_peliculas.size(); i++) {
+                                                    System.out.println((i+1)+". "+ arreglo_peliculas.get(i).getTitulo());
+                                                }
+                                                int indicePelicula = sc.nextInt()-1;
+                                                System.out.println("Ingrese hora");
+                                                int horaPelicula = sc.nextInt();
+                                                arreglo_peliculas.get(indicePelicula).addFuncion(new Funcion(arreglo_peliculas.get(indicePelicula),fecha,horaPelicula,elegirSala(salas,horaPelicula)));
+                                                System.out.println("Horario agregado satisfactoriamente");
+                                                System.out.println("1. Agregar otro horario");
+                                                System.out.println("2. Regresar");
+                                            }
+                                            break;
+                                        default:
+                                            System.out.println("Dato incorrecto");
+                                    }
+                                case 4:
+                                    //aquello de los booleanos
+                                    break;
+                                default:
+                                    System.out.println("Dato incorrecto");
+                            }
+                        }else{
+                            //Pantalla para el cliente
+                        }
+                    }
+                    break;
                 case 2:
                     limpiarPantalla();
                     System.out.println("Ingrese nombre");
                     String nombre_dinamico = sc.next();
                     System.out.println("Ingrese edad");
                     int edad_dinamico = sc.nextInt();
-                    System.out.println("Ingrese id");
+                    System.out.println("Ingrese documento");
                     int id_dinamico = sc.nextInt();
                     System.out.println("¿Es usted empleado? (si o no)");
                     String rol_dinamico = sc.next();
@@ -119,6 +228,9 @@ break;
                         // La clave por defecto es 0000
                         String clave_dinamico = sc.next();
                         if (clave_dinamico.equals("0000")) {
+                            wr.write(nombre_dinamico);
+                            wr.write(";" + edad_dinamico + ";" + id_dinamico + ";" + "true");
+                            wr.write('\n');
                             arreglo_empleados.add(new Cliente(nombre_dinamico, edad_dinamico, id_dinamico, true));
                             System.out.println("Registrado con éxito");
                             Thread.sleep(3000);
@@ -149,7 +261,7 @@ break;
                         limpiarPantalla();
             }
 
-        } while (estado = true);
+        } while (estado == true);
 
     }
 }

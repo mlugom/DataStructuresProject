@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package clases;
-
+import java.util.*;
 /**
  *
  * @author Manuel Esteban
@@ -13,13 +13,13 @@ public class Pelicula {
     private String titulo;
     private int duracion;
     private int edadMinima;
-    private Funcion[] funciones;
+    private Queue<Funcion> funciones;
 
     public Pelicula(String titulo, int duracion, int edadMinima) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.edadMinima = edadMinima;
-        this.funciones = new Funcion[5];
+        this.funciones = new LinkedList<>();
     }
 
     public String getTitulo() {
@@ -34,10 +34,6 @@ public class Pelicula {
         return edadMinima;
     }
 
-    public Funcion[] getFunciones() {
-        return funciones;
-    }
-
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -50,17 +46,16 @@ public class Pelicula {
         this.edadMinima = edadMinima;
     }
 
-    public void setFunciones(Funcion[] funciones) {
+    public Queue<Funcion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(Queue<Funcion> funciones) {
         this.funciones = funciones;
     }
     
-    public void anadirFuncion(Funcion funcion){
-        for(int i=0;i<this.funciones.length;i++){
-            if(this.funciones[i]==null){
-                this.funciones[i] = funcion;
-                break;
-            }
-        }
+    public void addFuncion(Funcion funcion){
+        this.funciones.add(funcion);
     }
     
 }
