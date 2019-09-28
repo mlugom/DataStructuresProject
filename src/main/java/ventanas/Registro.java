@@ -65,6 +65,7 @@ public class Registro {
         String ruta_empleados = "empleados.txt";
         String ruta_peliculas = "peliculas.txt";
 
+        
         File archivo1 = new File(ruta_clientes);
         FileWriter w = new FileWriter(archivo1);
         BufferedWriter bw = new BufferedWriter(w);
@@ -77,6 +78,7 @@ public class Registro {
         int edad = 0, id = 0;
         boolean rol = true;
         String name = "";
+        
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
@@ -96,13 +98,21 @@ public class Registro {
             }
 
             wr.write(nombre);
-            wr.write(";" + edad + ";" + id + ";" + rol);
+            wr.write(" " + edad + " " + id + " " + rol);
             wr.write('\n');
         }
+        
+        
 
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
         do {
+            archivo1 = new File(ruta_clientes);
+            w = new FileWriter(archivo1);
+            bw = new BufferedWriter(w);
+            wr = new PrintWriter(bw);
+
+        lecture = new Scanner(archivo1);
             limpiarPantalla();
             System.out.println("/////////////////////////////////////////");
             System.out.println("              Bienvenido");
@@ -208,7 +218,12 @@ public class Registro {
                                     System.out.println("Dato incorrecto");
                             }
                         }else{
-                            //Pantalla para el cliente
+                            System.out.println("Bienvenido. Seleccione su película");
+                            for(int i = 0; i < arreglo_peliculas.size(); i++){
+                                System.out.println((i+1) + ". " + arreglo_peliculas.get(i).getTitulo());
+                            }
+                            int selCliente = sc.nextInt();
+                            
                         }
                     }
                     break;
@@ -228,9 +243,9 @@ public class Registro {
                         // La clave por defecto es 0000
                         String clave_dinamico = sc.next();
                         if (clave_dinamico.equals("0000")) {
-                            wr.write(nombre_dinamico);
-                            wr.write(";" + edad_dinamico + ";" + id_dinamico + ";" + "true");
-                            wr.write('\n');
+                            w.write(nombre_dinamico);
+                            w.write(" " + edad_dinamico + " " + id_dinamico + " " + "true");
+                            w.write('\n');
                             arreglo_empleados.add(new Cliente(nombre_dinamico, edad_dinamico, id_dinamico, true));
                             System.out.println("Registrado con éxito");
                             Thread.sleep(3000);
@@ -243,9 +258,9 @@ public class Registro {
 
                     } else {
 
-                        wr.write(nombre_dinamico);
-                        wr.write(";" + edad_dinamico + ";" + id_dinamico + ";" + "false");
-                        wr.write('\n');
+                        w.write(nombre_dinamico);
+                        w.write(" " + edad_dinamico + " " + id_dinamico + " " + "false");
+                        w.write('\n');
 
                         arreglo_clientes.add(new Cliente(nombre_dinamico, edad_dinamico, id_dinamico, false));
                         System.out.println("Registrado con éxito");
@@ -253,13 +268,13 @@ public class Registro {
                         limpiarPantalla();
 
                     }
-                    wr.close();
-                    bw.close();
+                    w.close();
                     break;
                 case 3:
                     Thread.sleep(3000);
                         limpiarPantalla();
             }
+           
 
         } while (estado == true);
 
