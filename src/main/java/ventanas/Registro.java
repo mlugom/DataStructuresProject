@@ -199,12 +199,12 @@ public class Registro {
         String Tit = "";
         int duration = 0, edadMin = 0;
 
-        for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 8; i++) {
                 int l = (int) (Math.random() * 12);
-                //  nombre[i] = (char) abc[l];
+                 nombre[i] = (char) abc[l];
 
-                Tit = Tit + "ji";
+                Tit = Tit + nombre[i];
             }
             duration = (int) (Math.random() * 3);
             edadMin = 7 + (int) (Math.random() * 11);
