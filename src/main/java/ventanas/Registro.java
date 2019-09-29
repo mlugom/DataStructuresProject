@@ -166,13 +166,13 @@ public class Registro {
                 int el = (int) (Math.random() * 12);
                 nombre[i] = (char) abc[el];
 
-                name = name + nombre[i];
+                name = name + nombre[i];}
                 rol = Math.random() < 0.5;
 
                 edad = (int) (Math.random() * 80);
                 id = 10000000 + (int) (Math.random() * 9999999);
 
-            }
+            
             arreglo_clientes.add(new Cliente(name, edad, id));
             escribirArchivo(arreglo_clientes, ruta_clientes);
             name = "";
@@ -183,18 +183,38 @@ public class Registro {
                 int el = (int) (Math.random() * 12);
                 nombre[i] = (char) abc[el];
 
-                name = name + nombre[i];
+                name = name + nombre[i];}
                 rol = Math.random() < 0.5;
 
                 edad = (int) (Math.random() * 80);
                 id = 10000000 + (int) (Math.random() * 9999999);
 
-            }
+            
             arreglo_empleados.add(new Empleado(name, edad, id));
             escribirArchivo(arreglo_empleados, ruta_empleados);
             name = "";
         }
 
+        //Agregamos peliculas    
+        String Tit = "";
+        int duration = 0, edadMin = 0;
+
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 10; i++) {
+                int l = (int) (Math.random() * 12);
+                //  nombre[i] = (char) abc[l];
+
+                Tit = Tit + "ji";
+            }
+            duration = (int) (Math.random() * 3);
+            edadMin = 7 + (int) (Math.random() * 11);
+
+            arreglo_peliculas.add(new Pelicula(Tit, duration, edadMin));
+            escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
+            Tit = "";
+        }
+        
+        
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
 
@@ -356,9 +376,24 @@ public class Registro {
 
                     break;
                 case 3:
-                    Thread.sleep(2000);
+                    System.out.println(arreglo_peliculas.get(0).getTitulo());
+                    for (int i = 0; i < arreglo_peliculas.size(); i++) {
+                        System.out.println(i + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
+                                + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
+                    }
+
+                    System.out.println("");
+                    System.out.println("QUÉ PELÍCULA QUIERES VER?");
+                    int numPel = sc.nextInt();
+
                     limpiarPantalla();
+                    //Hay que poner -1 porque el arreglo empieza en 0
+                    System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
+                    System.out.println("");
+                    System.out.println(arreglo_peliculas.get(numPel - 1).getFunciones());
+                    sc.next();
                     break;
+                    
             }
 
         } while (estado == true);
