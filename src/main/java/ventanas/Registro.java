@@ -77,42 +77,32 @@ public class Registro {
         }
 
     }
-    
-    public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException{
-        
+
+    public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
+
         Scanner s = new Scanner(new File(filePath));
-ArrayList<Usuario> data = new ArrayList<>();
-String Name_provicional="";
-int edad_provicional=0,id_provicional=0;
+        ArrayList<Usuario> data = new ArrayList<>();
+        String Name_provicional = "";
+        int edad_provicional = 0, id_provicional = 0;
 
+        while (s.hasNextLine()) {
+            Name_provicional = s.next();
+            edad_provicional = s.nextInt();
+            id_provicional = s.nextInt();
 
-while (s.hasNextLine()) {
-    Name_provicional=s.next();
-    edad_provicional=s.nextInt();
-    id_provicional=s.nextInt();
-    
-    
-    data.add(new Usuario(Name_provicional, id_provicional, id_provicional));
-}
-s.close();
-        
-  return data; 
+            data.add(new Usuario(Name_provicional, id_provicional, id_provicional));
+        }
+        s.close();
+
+        return data;
     }
-    
-    
-    
-    
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         ArrayList<Usuario> arreglo_empleados = new ArrayList<>();
         ArrayList<Usuario> arreglo_clientes = new ArrayList<>();
         ArrayList<Pelicula> arreglo_peliculas = new ArrayList<>();
-        
-        
-        
-        
-        
+
         Sala[] salas = new Sala[3];
         for (int i = 0; i < 3; i++) {
             salas[i] = new Sala(i + 1);
@@ -123,9 +113,9 @@ s.close();
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
         String ruta_peliculas = "peliculas.txt";
-        
-       arreglo_clientes= leerArchivo(ruta_clientes);
-       arreglo_empleados= leerArchivo(ruta_empleados);
+
+        arreglo_clientes = leerArchivo(ruta_clientes);
+        arreglo_empleados = leerArchivo(ruta_empleados);
         //arreglo_peliculas= leerArchivo(ruta_peliculas);
 
         File archivo1 = new File(ruta_clientes);
@@ -144,7 +134,7 @@ s.close();
         boolean rol = true;
         String name = "";
 
-   /*
+        /*
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
@@ -178,14 +168,10 @@ s.close();
             escribirArchivo(arreglo_empleados, ruta_empleados);
             name = "";
         }
-*/
-        
+         */
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
-        
-   
-        
-        
+
         do {
             limpiarPantalla();
             System.out.println("/////////////////////////////////////////");
@@ -199,7 +185,7 @@ s.close();
 
             int seleccion = sc.nextInt();
             switch (seleccion) {
-                
+
                 /*
                 case 1:
                     boolean valido = false;
@@ -298,7 +284,7 @@ s.close();
                         }
                     }
                     break;
- */
+                 */
                 case 2:
                     limpiarPantalla();
                     System.out.println("Ingrese nombre");
@@ -334,7 +320,6 @@ s.close();
                         arreglo_clientes.add(new Cliente(nombre_dinamico, edad_dinamico, id_dinamico));
                         escribirArchivo(arreglo_clientes, ruta_clientes);
 
-             
                         System.out.println("Registrado con éxito");
                         Thread.sleep(2000);
                         limpiarPantalla();
@@ -350,5 +335,4 @@ s.close();
 
         } while (estado == true);
 
-    }
-}
+    }}

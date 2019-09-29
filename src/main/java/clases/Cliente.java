@@ -14,8 +14,10 @@ public class Cliente extends Usuario{
     private Sala sala;
     private Funcion funcion;
     
+
     public Cliente(String nombre, int edad, int documento) {
         super(nombre, edad, documento);
+
         this.asiento = null;
         this.sala = null;
         this.funcion = null;

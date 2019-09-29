@@ -16,11 +16,14 @@ public class Usuario {
     private int documento;
     private boolean rol;
 
+
+  
     public Usuario(String nombre, int edad, int documento) {
         this.nombre = nombre;
         this.edad = edad;
         this.documento = documento;
-       
+        this.rol = rol;
+
     }
 
     
