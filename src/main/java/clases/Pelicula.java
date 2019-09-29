@@ -13,13 +13,13 @@ public class Pelicula {
     private String titulo;
     private int duracion;
     private int edadMinima;
-    private Queue<Funcion> funciones;
+    private ArrayList<Funcion> funciones;
 
     public Pelicula(String titulo, int duracion, int edadMinima) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.edadMinima = edadMinima;
-        this.funciones = new LinkedList<>();
+        this.funciones = new ArrayList<>();
     }
 
     public String getTitulo() {
@@ -46,11 +46,11 @@ public class Pelicula {
         this.edadMinima = edadMinima;
     }
 
-    public Queue<Funcion> getFunciones() {
+    public ArrayList<Funcion> getFunciones() {
         return funciones;
     }
 
-    public void setFunciones(Queue<Funcion> funciones) {
+    public void setFunciones(ArrayList<Funcion> funciones) {
         this.funciones = funciones;
     }
     

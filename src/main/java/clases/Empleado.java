@@ -13,6 +13,7 @@ public class Empleado extends Usuario{
 
     public Empleado(String nombre, int edad, int documento) {
         super(nombre, edad, documento);
+        this.rol = true;
 
     }
     

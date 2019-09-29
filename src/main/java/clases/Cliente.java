@@ -11,7 +11,6 @@ package clases;
  */
 public class Cliente extends Usuario{
     private Asiento asiento;
-    private Sala sala;
     private Funcion funcion;
     
 
@@ -19,8 +18,8 @@ public class Cliente extends Usuario{
         super(nombre, edad, documento);
 
         this.asiento = null;
-        this.sala = null;
         this.funcion = null;
+        this.rol = false;
     }
 
     public Asiento getAsiento() {
@@ -31,16 +30,9 @@ public class Cliente extends Usuario{
         this.asiento = asiento;
     }
 
-    public Sala getSala() {
-        return sala;
-    }
 
     public Funcion getFuncion() {
         return funcion;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
     }
 
     public void setFuncion(Funcion funcion) {

@@ -11,10 +11,10 @@ package clases;
  */
 public class Usuario {
     
-    private String nombre;
-    private int edad;
-    private int documento;
-    private boolean rol;
+    protected String nombre;
+    protected int edad;
+    protected int documento;
+    protected boolean rol;
 
 
   
