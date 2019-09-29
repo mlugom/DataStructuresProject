@@ -78,6 +78,32 @@ public class Registro {
 
     }
 
+    public static void escribirArchivopeli(ArrayList<Pelicula> entradas, String rutaArchivo) {
+        BufferedWriter writerInv = null;
+        try {
+            writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        for (int i = 0; i < entradas.size(); i++) {
+            try {
+
+                writerInv.write(entradas.get(i).getTitulo() + " " + entradas.get(i).getDuracion() + " " + entradas.get(i).getEdadMinima());
+                writerInv.newLine();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        try {
+            writerInv.close();
+        } catch (IOException ex) {
+
+        }
+
+    }
+
     public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
 
         Scanner s = new Scanner(new File(filePath));
@@ -113,11 +139,11 @@ public class Registro {
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
         String ruta_peliculas = "peliculas.txt";
-/*
+        /*
         arreglo_clientes = leerArchivo(ruta_clientes);
         arreglo_empleados = leerArchivo(ruta_empleados);
         //arreglo_peliculas= leerArchivo(ruta_peliculas);
-*/
+         */
         File archivo1 = new File(ruta_clientes);
         if (!archivo1.exists()) {
             archivo1.createNewFile();
@@ -128,12 +154,12 @@ public class Registro {
 
         Scanner lecture = new Scanner(archivo1);
 
+//Acá se hace la parte de random
         char abc[] = {'a', 'b', 'c', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
         char[] nombre = new char[8];
         int edad = 0, id = 0;
         boolean rol = true;
         String name = "";
-
 
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
@@ -180,13 +206,12 @@ public class Registro {
             System.out.println("1) Ingresar usuario");
             System.out.println("2) Registrar usuario");
             // System.out.println("3) Consultar usuario");
-            System.out.println("4) Consultar pelicula");
+            System.out.println("3) Consultar pelicula");
             System.out.println("/////////////////////////////////////////");
 
             int seleccion = sc.nextInt();
             switch (seleccion) {
 
-                
                 case 1:
                     boolean valido = false;
                     boolean rolPrueba = false;
@@ -249,6 +274,7 @@ public class Registro {
                                             System.out.print("Ingrese edad mínima: ");
                                             int edadMinima = sc.nextInt();
                                             arreglo_peliculas.add(new Pelicula(titulo, duracion, edadMinima));
+                                            escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
                                             System.out.println("Película agregada satisfactoriamente");
                                             System.out.println("1. Agregar otra película");
                                             System.out.println("2. Regresar");
@@ -266,6 +292,8 @@ public class Registro {
                                                 int horaPelicula = sc.nextInt();
                                                 arreglo_peliculas.get(indicePelicula).addFuncion(new Funcion(arreglo_peliculas.get(indicePelicula), fecha, horaPelicula, elegirSala(salas, horaPelicula)));
                                                 System.out.println("Horario agregado satisfactoriamente");
+                                                Thread.sleep(2000);
+                                                limpiarPantalla();
                                                 System.out.println("1. Agregar otro horario");
                                                 System.out.println("2. Regresar");
                                             }
@@ -284,10 +312,10 @@ public class Registro {
                         }
                     }
                     break;
-               
+
                 case 2:
                     limpiarPantalla();
-                    System.out.println("Ingrese nombre");
+                    System.out.println("Ingrese nombre (sin espacios)");
                     String nombre_dinamico = sc.next();
                     System.out.println("Ingrese edad");
                     int edad_dinamico = sc.nextInt();
@@ -335,4 +363,5 @@ public class Registro {
 
         } while (estado == true);
 
-    }}
+    }
+}
