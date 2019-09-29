@@ -109,19 +109,41 @@ public class Registro {
 
     }
 
-    public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
+      public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
 
-        Scanner s = new Scanner(new File(filePath));
+        File prueba = new File(filePath);
+        Scanner s = new Scanner(prueba);
         ArrayList<Usuario> data = new ArrayList<>();
         String Name_provicional = "";
         int edad_provicional = 0, id_provicional = 0;
 
-        while (s.hasNextLine()) {
-            Name_provicional = s.next();
-            edad_provicional = s.nextInt();
-            id_provicional = s.nextInt();
+        while(s.hasNext()) {
 
+            Name_provicional = s.next();
+
+            edad_provicional = Integer.parseInt(s.next());
+
+            id_provicional = Integer.parseInt(s.next());
             data.add(new Usuario(Name_provicional, id_provicional, id_provicional));
+        }
+        s.close();
+
+        return data;
+    }
+
+    public static ArrayList<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
+
+        Scanner s = new Scanner(new File(filePath));
+        ArrayList<Pelicula> data = new ArrayList<>();
+        String Name_provicional = "";
+        int duracion_provicional = 0, edadM_provicional = 0;
+
+        
+        while(s.hasNext()) {
+            Name_provicional = s.next();
+            duracion_provicional = Integer.parseInt(s.next());
+            edadM_provicional = Integer.parseInt(s.next());
+            data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional));
         }
         s.close();
 
@@ -147,11 +169,19 @@ public class Registro {
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
         String ruta_peliculas = "peliculas.txt";
-        /*
+     
+        ////Acá leemos la base de datos 
+        // Y sobreescribimos
+        
         arreglo_clientes = leerArchivo(ruta_clientes);
+       escribirArchivo(arreglo_clientes, ruta_clientes);
+       
         arreglo_empleados = leerArchivo(ruta_empleados);
-        //arreglo_peliculas= leerArchivo(ruta_peliculas);
-         */
+         escribirArchivo(arreglo_empleados, ruta_empleados);
+         
+        arreglo_peliculas = leerArchivopel(ruta_peliculas);
+        escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
+        
         File archivo1 = new File(ruta_clientes);
         if (!archivo1.exists()) {
             archivo1.createNewFile();
@@ -168,41 +198,64 @@ public class Registro {
         int edad = 0, id = 0;
         boolean rol = true;
         String name = "";
-
+//
+//Acá se comenta y se descomenta (solo necesario la primera vez)
+//
+        /*
+        
+//Agregamos clientes
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
                 nombre[i] = (char) abc[el];
 
                 name = name + nombre[i];
-                rol = Math.random() < 0.5;
-
-                edad = (int) (Math.random() * 80);
-                id = 10000000 + (int) (Math.random() * 9999999);
-
             }
+            rol = Math.random() < 0.5;
+
+            edad = (int) (Math.random() * 80);
+            id = 10000000 + (int) (Math.random() * 9999999);
+
             arreglo_clientes.add(new Cliente(name, edad, id));
             escribirArchivo(arreglo_clientes, ruta_clientes);
             name = "";
         }
-
+//Agregamos empleados
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
                 nombre[i] = (char) abc[el];
 
                 name = name + nombre[i];
-                rol = Math.random() < 0.5;
-
-                edad = (int) (Math.random() * 80);
-                id = 10000000 + (int) (Math.random() * 9999999);
-
             }
+            rol = Math.random() < 0.5;
+
+            edad = (int) (Math.random() * 80);
+            id = 10000000 + (int) (Math.random() * 9999999);
+
             arreglo_empleados.add(new Empleado(name, edad, id));
             escribirArchivo(arreglo_empleados, ruta_empleados);
             name = "";
         }
+//Agregamos peliculas    
+        String Tit = "";
+        int duration = 0, edadMin = 0;
 
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 8; i++) {
+                int l = (int) (Math.random() * 12);
+                 nombre[i] = (char) abc[l];
+
+                Tit = Tit + nombre[i];
+            }
+            duration = (int) (Math.random() * 3);
+            edadMin = 7 + (int) (Math.random() * 11);
+
+            arreglo_peliculas.add(new Pelicula(Tit, duration, edadMin));
+            escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
+            Tit = "";
+        }
+        */        
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
 
@@ -519,9 +572,24 @@ public class Registro {
 
                     break;
                 case 3:
-                    Thread.sleep(2000);
+                    System.out.println(arreglo_peliculas.get(0).getTitulo());
+                    for (int i = 0; i < arreglo_peliculas.size(); i++) {
+                        System.out.println(i + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
+                                + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
+                    }
+
+                    System.out.println("");
+                    System.out.println("QUÉ PELÍCULA QUIERES VER?");
+                    int numPel = sc.nextInt();
+
                     limpiarPantalla();
+                    //Hay que poner -1 porque el arreglo empieza en 0
+                    System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
+                    System.out.println("");
+                    System.out.println(arreglo_peliculas.get(numPel - 1).getFunciones());
+                    sc.next();
                     break;
+                    
             }
 
         } while (estado == true);
