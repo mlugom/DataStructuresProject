@@ -113,11 +113,11 @@ public class Registro {
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
         String ruta_peliculas = "peliculas.txt";
-
+/*
         arreglo_clientes = leerArchivo(ruta_clientes);
         arreglo_empleados = leerArchivo(ruta_empleados);
         //arreglo_peliculas= leerArchivo(ruta_peliculas);
-
+*/
         File archivo1 = new File(ruta_clientes);
         if (!archivo1.exists()) {
             archivo1.createNewFile();
@@ -134,7 +134,7 @@ public class Registro {
         boolean rol = true;
         String name = "";
 
-        /*
+
         for (int j = 0; j < 100; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
@@ -168,7 +168,7 @@ public class Registro {
             escribirArchivo(arreglo_empleados, ruta_empleados);
             name = "";
         }
-         */
+
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
 
@@ -186,7 +186,7 @@ public class Registro {
             int seleccion = sc.nextInt();
             switch (seleccion) {
 
-                /*
+                
                 case 1:
                     boolean valido = false;
                     boolean rolPrueba = false;
@@ -284,7 +284,7 @@ public class Registro {
                         }
                     }
                     break;
-                 */
+               
                 case 2:
                     limpiarPantalla();
                     System.out.println("Ingrese nombre");
