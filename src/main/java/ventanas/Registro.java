@@ -574,19 +574,22 @@ public class Registro {
                 case 3:
                     System.out.println(arreglo_peliculas.get(0).getTitulo());
                     for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                        System.out.println(i + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
+                        System.out.println((i+1) + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
                                 + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
                     }
 
                     System.out.println("");
-                    System.out.println("QUÉ PELÍCULA QUIERES VER?");
+                    System.out.println("¿Qué película desea consultar?");
                     int numPel = sc.nextInt();
 
                     limpiarPantalla();
                     //Hay que poner -1 porque el arreglo empieza en 0
                     System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
                     System.out.println("");
-                    System.out.println(arreglo_peliculas.get(numPel - 1).getFunciones());
+                    for (int i = 0; i < arreglo_peliculas.get(numPel-1).getFunciones().size(); i++) {
+                        System.out.println(arreglo_peliculas.get(numPel-1).getFunciones().get(i).getHora());
+                    }
+                    System.out.println("Escriba un caracter para continuar");
                     sc.next();
                     break;
                     
