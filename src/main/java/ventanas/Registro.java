@@ -149,6 +149,34 @@ public class Registro {
 
         return data;
     }
+    //Farid Está trabajando en esta función
+    /*
+        public static ArrayList<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
+
+        Scanner s = new Scanner(new File(filePath));
+        ArrayList<Pelicula> data = new ArrayList<>();
+        String Name_provicional = "";
+        int duracion_provicional = 0, edadM_provicional = 0;
+        int numeroFunciones=0;
+        int[] funciones= new int[numeroFunciones];
+
+        
+        while(s.hasNext()) {
+            Name_provicional = s.next();
+            duracion_provicional = Integer.parseInt(s.next());
+            edadM_provicional = Integer.parseInt(s.next());
+            numeroFunciones=Integer.parseInt(s.next());
+            for (int i = 0; i < numeroFunciones; i++) {
+             funciones[i]=Integer.parseInt(s.next());   
+            }
+        //    data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional,numeroFunciones,funciones));
+            data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional));
+        }
+        s.close();
+
+        return data;
+    }
+    */
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
