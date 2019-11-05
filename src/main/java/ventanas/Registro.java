@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//Esta es la versión de la entrega intermedia. Se implementan colas, pilas,
+//arreglos dinámicos propios y arboles, así como una primera interfaz gráfica.
 package ventanas;
 
 import clases.*;
