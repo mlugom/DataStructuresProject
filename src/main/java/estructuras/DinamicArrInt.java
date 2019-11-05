@@ -11,10 +11,10 @@ import java.lang.reflect.Array;
  *
  * @author manuel
  */
-public class DinamicArr<T> {
+public class DinamicArrInt<T extends Comparable<?super T>> {
     private Object[] arreglo;
 
-    public DinamicArr() {
+    public DinamicArrInt() {
         this.arreglo = new Object[2];
     }
 
@@ -56,6 +56,17 @@ public class DinamicArr<T> {
         return (T)this.arreglo[i];
     }
     
+    public void sort(){
+        for (int i = 0; i < this.size()-1; i++) {
+            for(int j = 0; j < this.size()-1; j++){
+                if(this.get(j).compareTo(this.get(j+1)) > 0){
+                    T aux = this.get(j);
+                    this.arreglo[j] = this.get(j+1);
+                    this.arreglo[j+1] = aux;
+                }
+            }
+        }
+    }
     
     public void remove(int i){
         for(int j = i; j < this.size()-1; j++){

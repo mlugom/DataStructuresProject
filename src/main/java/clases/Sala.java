@@ -5,17 +5,18 @@
  */
 package clases;
 import java.util.*;
+import estructuras.*;
 /**
  *
  * @author Manuel Esteban
  */
 public class Sala {
-   private ArrayList <Funcion> funciones;
+   private Cola <Funcion> funciones;
    private int numSala;
    private Asiento[][] asientos;
 
     public Sala(int numSala) {
-        this.funciones = new ArrayList<>();
+        this.funciones = new Cola<>();
         this.numSala = numSala;
         this.asientos = new Asiento[3][7]; 
         for(int i=0;i<asientos.length;i++){
@@ -24,11 +25,11 @@ public class Sala {
             }
         }
     }
-    public ArrayList <Funcion> getFunciones() {
+    public Cola <Funcion> getFunciones() {
         return funciones;
     }
 
-    public void setFunciones(ArrayList<Funcion> funciones) {
+    public void setFunciones(Cola<Funcion> funciones) {
         this.funciones = funciones;
     }
 
@@ -51,6 +52,10 @@ public class Sala {
     
     public void addFuncion(Funcion funcion){
         this.funciones.add(funcion);
+    }
+    
+    public Funcion despacharFuncion(){
+        return funciones.poll();
     }
     
 }

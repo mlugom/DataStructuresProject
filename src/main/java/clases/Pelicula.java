@@ -5,6 +5,7 @@
  */
 package clases;
 import java.util.*;
+import estructuras.*;
 /**
  *
  * @author Manuel Esteban
@@ -13,13 +14,13 @@ public class Pelicula {
     private String titulo;
     private int duracion;
     private int edadMinima;
-    private ArrayList<Funcion> funciones;
+    private DinamicArr<Funcion> funciones;
 
     public Pelicula(String titulo, int duracion, int edadMinima) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.edadMinima = edadMinima;
-        this.funciones = new ArrayList<>();
+        this.funciones = new DinamicArr<>();
     }
 
     public String getTitulo() {
@@ -46,11 +47,11 @@ public class Pelicula {
         this.edadMinima = edadMinima;
     }
 
-    public ArrayList<Funcion> getFunciones() {
+    public DinamicArr<Funcion> getFunciones() {
         return funciones;
     }
 
-    public void setFunciones(ArrayList<Funcion> funciones) {
+    public void setFunciones(DinamicArr<Funcion> funciones) {
         this.funciones = funciones;
     }
     
