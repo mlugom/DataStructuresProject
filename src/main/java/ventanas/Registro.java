@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import estructuras.*;
 
 /**
  *
@@ -44,7 +45,7 @@ public class Registro {
 
     }
 
-    public static Sala elegirSala(Sala[] salas, int hora) {
+    public static Sala elegirSala(Sala[] salas, int hora, int contadorSala) {
         int indice = 0;
         for (int i = 0; i < salas.length; i++) {
             for (int j = 0; j < salas[i].getFunciones().size(); j++) {
@@ -60,7 +61,7 @@ public class Registro {
         }
     }
 
-    public static void escribirArchivo(ArrayList<Usuario> entradas, String rutaArchivo) {
+    public static void escribirArchivo(DinamicArr<Usuario> entradas, String rutaArchivo) {
         BufferedWriter writerInv = null;
         try {
             writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
@@ -86,7 +87,7 @@ public class Registro {
 
     }
 
-    public static void escribirArchivopeli(ArrayList<Pelicula> entradas, String rutaArchivo) {
+    public static void escribirArchivopeli(DinamicArr<Pelicula> entradas, String rutaArchivo) {
         BufferedWriter writerInv = null;
         try {
             writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
@@ -112,11 +113,11 @@ public class Registro {
 
     }
 
-      public static ArrayList<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
+      public static DinamicArr<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
 
         File prueba = new File(filePath);
         Scanner s = new Scanner(prueba);
-        ArrayList<Usuario> data = new ArrayList<>();
+        DinamicArr<Usuario> data = new DinamicArr<>();
         String Name_provicional = "";
         int edad_provicional = 0, id_provicional = 0;
 
@@ -134,10 +135,10 @@ public class Registro {
         return data;
     }
 
-    public static ArrayList<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
+    public static DinamicArr<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
 
         Scanner s = new Scanner(new File(filePath));
-        ArrayList<Pelicula> data = new ArrayList<>();
+        DinamicArr<Pelicula> data = new DinamicArr<>();
         String Name_provicional = "";
         int duracion_provicional = 0, edadM_provicional = 0;
 
@@ -183,10 +184,14 @@ public class Registro {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        ArrayList<Usuario> arreglo_empleados = new ArrayList<>();
-        ArrayList<Usuario> arreglo_clientes = new ArrayList<>();
-        ArrayList<Pelicula> arreglo_peliculas = new ArrayList<>();
-        ArrayList<Cliente> clientesConAsiento = new ArrayList<>();
+        DinamicArr<Usuario> arreglo_empleados = new DinamicArr<>();
+        DinamicArr<Usuario> arreglo_clientes = new DinamicArr<>();
+        DinamicArr<Pelicula> arreglo_peliculas = new DinamicArr<>();
+        DinamicArr<Cliente> clientesConAsiento = new DinamicArr<>();
+        ArbolUsuarios arbolClientes = new ArbolUsuarios();
+        ArbolUsuarios arbolEmpleados = new ArbolUsuarios();
+        
+        int contadorSala = 0;
         
         
 
@@ -205,10 +210,16 @@ public class Registro {
         // Y sobreescribimos
         
         arreglo_clientes = leerArchivo(ruta_clientes);
-       escribirArchivo(arreglo_clientes, ruta_clientes);
+        for(int i=0; i<arreglo_clientes.size();i++){
+            arbolClientes.insert(arreglo_clientes.get(i));
+        }
+        escribirArchivo(arreglo_clientes, ruta_clientes);
        
         arreglo_empleados = leerArchivo(ruta_empleados);
-         escribirArchivo(arreglo_empleados, ruta_empleados);
+        for(int i=0; i<arreglo_clientes.size();i++){
+            arbolClientes.insert(arreglo_clientes.get(i));
+        }
+        escribirArchivo(arreglo_empleados, ruta_empleados);
          
         arreglo_peliculas = leerArchivopel(ruta_peliculas);
         escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
@@ -577,8 +588,9 @@ public class Registro {
                         String clave_dinamico = sc.next();
 
                         if (clave_dinamico.equals("0000")) {
-
-                            arreglo_empleados.add(new Empleado(nombre_dinamico, edad_dinamico, id_dinamico));
+                            Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);
+                            arreglo_empleados.add(empleadoAux);
+                            arbolEmpleados.insert(empleadoAux);
                             escribirArchivo(arreglo_empleados, ruta_empleados);
 
                             System.out.println("Registrado con éxito");

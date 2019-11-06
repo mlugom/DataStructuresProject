@@ -11,6 +11,7 @@ import estructuras.*;
  * @author Manuel Esteban
  */
 public class Sala {
+   private int horaFuncion;
    private Cola <Funcion> funciones;
    private int numSala;
    private Asiento[][] asientos;
@@ -19,6 +20,7 @@ public class Sala {
         this.funciones = new Cola<>();
         this.numSala = numSala;
         this.asientos = new Asiento[3][7]; 
+        this.horaFuncion = 9;
         for(int i=0;i<asientos.length;i++){
             for(int j=0;j<asientos[i].length;j++){
                 asientos[i][j]= new Asiento((char)(i+65),j,true);
@@ -50,8 +52,13 @@ public class Sala {
         this.asientos = asientos;
     }
     
-    public void addFuncion(Funcion funcion){
-        this.funciones.add(funcion);
+    public void addFuncion(Pelicula pelicula, Date fecha){
+        if(this.horaFuncion <= 21){
+            Funcion funcion = new Funcion(pelicula, fecha, this.horaFuncion, this);
+            this.funciones.add(funcion);
+        }else{
+            System.out.println("Salas no disponibles");
+        }
     }
     
     public Funcion despacharFuncion(){
