@@ -73,7 +73,8 @@ public class ArbolUsuarios {
         }
     }
     
-    public boolean contains(Usuario key){
+    public boolean contains(int documento){
+        Usuario key = new Usuario("",0,documento);
         return contains(key,root);
     }
     

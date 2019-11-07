@@ -216,8 +216,8 @@ public class Registro {
         escribirArchivo(arreglo_clientes, ruta_clientes);
        
         arreglo_empleados = leerArchivo(ruta_empleados);
-        for(int i=0; i<arreglo_clientes.size();i++){
-            arbolClientes.insert(arreglo_clientes.get(i));
+        for(int i=0; i<arreglo_empleados.size();i++){
+            arbolClientes.insert(arreglo_empleados.get(i));
         }
         escribirArchivo(arreglo_empleados, ruta_empleados);
          
@@ -323,20 +323,14 @@ public class Registro {
 
                     System.out.println("Ingrese su documento");
                     int id_prueba = sc.nextInt();
-                    for (int i = 0; i < arreglo_empleados.size(); i++) {
-                        if (id_prueba == arreglo_empleados.get(i).getDocumento()) {
-                            valido = true;
-                            rolPrueba = true;
-                            break;
-                        }
+                    if(arbolEmpleados.contains(id_prueba)){
+                        valido = true;
+                        rolPrueba = true;
                     }
                     if (!valido) {
-                        for (int i = 0; i < arreglo_clientes.size(); i++) {
-                            if (id_prueba == arreglo_clientes.get(i).getDocumento()) {
-                                valido = true;
-                                rolPrueba = false;
-                                break;
-                            }
+                        if(arbolClientes.contains(id_prueba)){
+                            valido = true;
+                            rolPrueba = false;
                         }
                     }
                     if(!valido){
@@ -603,8 +597,9 @@ public class Registro {
                         }
 
                     } else {
-
-                        arreglo_clientes.add(new Cliente(nombre_dinamico, edad_dinamico, id_dinamico));
+                        Cliente clienteAux = new Cliente(nombre_dinamico, edad_dinamico, id_dinamico);
+                        arreglo_clientes.add(clienteAux);
+                        arbolClientes.insert(clienteAux);
                         escribirArchivo(arreglo_clientes, ruta_clientes);
 
                         System.out.println("Registrado con éxito");
