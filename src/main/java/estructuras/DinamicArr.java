@@ -62,4 +62,8 @@ public class DinamicArr<T> {
             this.arreglo[j] = this.arreglo[j+1];
         }
     }
+    
+    public boolean isEmpty(){
+        return this.size()== 0;
+    }
 }

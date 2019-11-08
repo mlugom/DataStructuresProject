@@ -56,6 +56,7 @@ public class Sala {
         if(this.horaFuncion <= 21){
             Funcion funcion = new Funcion(pelicula, fecha, this.horaFuncion, this);
             this.funciones.add(funcion);
+            this.horaFuncion+=3;            
         }else{
             System.out.println("Salas no disponibles");
         }
@@ -64,5 +65,22 @@ public class Sala {
     public Funcion despacharFuncion(){
         return funciones.poll();
     }
+    
+    public void vaciarSala(){
+        for(int i=0;i<asientos.length;i++){
+            for(int j=0;j<asientos[i].length;j++){
+                asientos[i][j].setDisponibilidad(true);
+            }
+        }
+    }
+
+    public int getHoraFuncion() {
+        return horaFuncion;
+    }
+
+    public void setHoraFuncion(int horaFuncion) {
+        this.horaFuncion = horaFuncion;
+    }
+    
     
 }

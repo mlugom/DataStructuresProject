@@ -78,6 +78,25 @@ public class ArbolUsuarios {
         return contains(key,root);
     }
     
+    private Usuario find(Usuario key, NodoArbolUsuario nodo){
+        if(nodo == null){
+            return null;
+        }
+        int compareResult = key.getDocumento()-nodo.getKey().getDocumento();
+        if(compareResult < 0){
+            return find(key,nodo.getLeft());
+        }else if(compareResult > 0){
+            return find(key,nodo.getRight());
+        }else{
+            return nodo.getKey();
+        }
+    }
+    
+    public Usuario find(int documento){
+        Usuario key = new Usuario("",0,documento);
+        return find(key,root);
+    }
+    
     private NodoArbolUsuario findMin(NodoArbolUsuario nodo){
         if (nodo == null) {
             return null;

@@ -45,21 +45,7 @@ public class Registro {
 
     }
 
-    public static Sala elegirSala(Sala[] salas, int hora, int contadorSala) {
-        int indice = 0;
-        for (int i = 0; i < salas.length; i++) {
-            for (int j = 0; j < salas[i].getFunciones().size(); j++) {
-                if (salas[i].getFunciones().get(j).getHora() == hora) {
-                    indice++;
-                }
-            }
-        }
-        if(indice==3){
-            return null;
-        }else{
-            return salas[indice];
-        }
-    }
+    
 
     public static void escribirArchivo(DinamicArr<Usuario> entradas, String rutaArchivo) {
         BufferedWriter writerInv = null;
@@ -199,8 +185,8 @@ public class Registro {
         for (int i = 0; i < 3; i++) {
             salas[i] = new Sala(i + 1);
         }
-        Date fecha = new Date(2019, 9, 30);
-        int hora = 8;
+        Date fecha = new Date(2019, 11, 10);
+        int hora = 6;
 
         String ruta_clientes = "clientes.txt";
         String ruta_empleados = "empleados.txt";
@@ -353,20 +339,79 @@ public class Registro {
                                     case 1:
                                         Thread.sleep(1000);
                                         limpiarPantalla();
-                                        System.out.print("Día: ");
-                                        int nuevoDia = sc.nextInt();
-                                        System.out.print("Mes: ");
-                                        int nuevoMes = sc.nextInt();
-                                        System.out.print("Año: ");
-                                        int nuevoAno = sc.nextInt();
-                                        fecha = new Date(nuevoAno, nuevoMes, nuevoDia);
+                                        System.out.print("La fecha de hoy es " + fecha.getDay() +"/"+ fecha.getMonth() +"/"+ fecha.getYear()+". ¿Desea actualizar? (s/n): ");
+                                        String seleccionFecha = sc.next();
+                                        if(seleccionFecha.equals("s")){
+                                            Date nuevaFecha = new Date();
+                                            if(fecha.getDay() < 28){
+                                                nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);                                                
+                                            }else if(fecha.getMonth() == 1){
+                                                nuevaFecha = new Date(fecha.getYear(),2,1);                                              
+                                            }else if((fecha.getMonth() <= 6 && fecha.getMonth()%2 == 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth()%2 != 0)){
+                                                if(fecha.getDay() < 31){
+                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                }else{
+                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth()+1,1);
+                                                }                              
+                                            }else if((fecha.getMonth() <= 6 && fecha.getMonth()%2 != 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth()%2 == 0)){
+                                                if(fecha.getDay() < 30){
+                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                }else{
+                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth()+1,1);
+                                                }
+                                            }else{
+                                                if(fecha.getDay() < 31){
+                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                }else{
+                                                    nuevaFecha = new Date(fecha.getYear()+1,0,1);
+                                                }
+                                            }
+                                            fecha = nuevaFecha;
+                                            for(int i = 0; i < 3; i++){
+                                                salas[i].vaciarSala();
+                                            }
+                                        }
                                         break;
                                     case 2:
                                         Thread.sleep(1000);
-                                        limpiarPantalla();
-                                        System.out.print("Hora: ");
-                                        int nuevaHora = sc.nextInt();
-                                        hora = nuevaHora;
+                                        limpiarPantalla();                                     
+                                        System.out.print("Hora: " + hora + ". ¿Desea actualizar? (s/n)");
+                                        String seleccionHora = sc.next();                                    
+                                        if(seleccionHora.equals("s")){
+                                            if(hora < 21){
+                                                hora+=3;
+                                            }else{
+                                                hora = 6;
+                                                Date nuevaFecha = new Date();
+                                                if (fecha.getDay() < 28) {
+                                                    nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                } else if (fecha.getMonth() == 1) {
+                                                    nuevaFecha = new Date(fecha.getYear(), 2, 1);
+                                                } else if ((fecha.getMonth() <= 6 && fecha.getMonth() % 2 == 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth() % 2 != 0)) {
+                                                    if (fecha.getDay() < 31) {
+                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                    } else {
+                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth() + 1, 1);
+                                                    }
+                                                } else if ((fecha.getMonth() <= 6 && fecha.getMonth() % 2 != 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth() % 2 == 0)) {
+                                                    if (fecha.getDay() < 30) {
+                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                    } else {
+                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth() + 1, 1);
+                                                    }
+                                                } else {
+                                                    if (fecha.getDay() < 31) {
+                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                    } else {
+                                                        nuevaFecha = new Date(fecha.getYear() + 1, 0, 1);
+                                                    }
+                                                }
+                                                fecha = nuevaFecha;
+                                                for (int i = 0; i < 3; i++) {
+                                                    salas[i].vaciarSala();
+                                                }
+                                            }
+                                        }
                                         break;
                                     case 3:
                                         boolean seguirActualizandoPelicula = true;
@@ -375,7 +420,7 @@ public class Registro {
                                             limpiarPantalla();
                                             System.out.println("Seleccione accion");
                                             System.out.println("1. Agregar pelicula");
-                                            System.out.println("2. Agregar horario");
+                                            System.out.println("2. Asignar función");
                                             System.out.println("3. Regresar");
                                             int selPelicula = sc.nextInt();
                                             switch (selPelicula) {
@@ -404,40 +449,44 @@ public class Registro {
                                                     } while (seguirAgregandoPelicula);
                                                     break;
                                                 case 2:
-                                                    boolean seguirAgregandoHorario = true;
-                                                    do {
-                                                        Thread.sleep(1000);
-                                                        limpiarPantalla();
-                                                        if (arreglo_peliculas.isEmpty()) {
-                                                            System.out.println("No hay películas en cartelera");
-                                                            Thread.sleep(3000);
-                                                            seguirAgregandoHorario = false;
-                                                        } else {
-                                                            System.out.println("Seleccione película");
-                                                            for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                                                                System.out.println((i + 1) + ". " + arreglo_peliculas.get(i).getTitulo());
-                                                            }
-                                                            int indicePelicula = sc.nextInt() - 1;
-                                                            System.out.println("Ingrese hora (entre las 9 y las 21)");
-                                                            int horaPelicula = sc.nextInt();
-                                                            Funcion funcAux = new Funcion(arreglo_peliculas.get(indicePelicula), fecha, horaPelicula, elegirSala(salas, horaPelicula));
-                                                            if (funcAux.getSala() == null) {
-                                                                System.out.println("No hay salas disponibles");
-                                                            } else {
-                                                                arreglo_peliculas.get(indicePelicula).addFuncion(funcAux);
-                                                                System.out.println("Horario agregado satisfactoriamente");
-                                                            }
-                                                            Thread.sleep(2000);
+                                                    if (hora == 6) {
+                                                        boolean seguirAgregandoHorario = true;
+                                                        do {
+                                                            Thread.sleep(1000);
                                                             limpiarPantalla();
-                                                            System.out.println("1. Agregar otro horario");
-                                                            System.out.println("2. Regresar");
-                                                            int selAgregarMasHorarios = sc.nextInt();
-                                                            if (selAgregarMasHorarios == 2) {
+                                                            if (arreglo_peliculas.isEmpty()) {
+                                                                System.out.println("No hay películas en cartelera");
+                                                                Thread.sleep(3000);
                                                                 seguirAgregandoHorario = false;
+                                                            } else {
+                                                                System.out.println("Seleccione película");
+                                                                for (int i = 0; i < arreglo_peliculas.size(); i++) {
+                                                                    System.out.println((i + 1) + ". " + arreglo_peliculas.get(i).getTitulo());
+                                                                }
+                                                                int indicePelicula = sc.nextInt() - 1;                                             
+                                                                
+                                                                Funcion funcAux = new Funcion(arreglo_peliculas.get(indicePelicula), fecha, salas[contadorSala].getHoraFuncion(), salas[contadorSala]);
+                                                                salas[contadorSala].addFuncion(arreglo_peliculas.get(indicePelicula), fecha);
+                                                                if(contadorSala < 2){
+                                                                    contadorSala++;
+                                                                }else{
+                                                                    contadorSala = 0;
+                                                                }
+                                                                arreglo_peliculas.get(indicePelicula).addFuncion(funcAux);
+                                                                System.out.println("La película quedó para las " + funcAux.getHora() + " en la sala " + (funcAux.getSala().getNumSala()+1) + ".");
+
+                                                                Thread.sleep(2000);
+                                                                limpiarPantalla();
+                                                                System.out.println("1. Asignar otra función");
+                                                                System.out.println("2. Regresar");
+                                                                int selAgregarMasHorarios = sc.nextInt();
+                                                                if (selAgregarMasHorarios == 2) {
+                                                                    seguirAgregandoHorario = false;
+                                                                }
                                                             }
-                                                        }
-                                                    } while (seguirAgregandoHorario);
-                                                    break;
+                                                        } while (seguirAgregandoHorario);
+                                                        break;
+                                                    }
                                                 case 3:
                                                     seguirActualizandoPelicula = false;
                                                     break;
@@ -475,91 +524,97 @@ public class Registro {
                             
                             
 
-                            System.out.println("Seleccione un horario");
-                            for (int i = 0; i < arreglo_peliculas.get(sel).getFunciones().size(); i++) {
-                                System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getFunciones().get(i).getHora());
-                            }
-                            int sel2 = 0;
-                            boolean horarioExists = true;
-                            do{
-                                horarioExists = true;
-                                sel2 = sc.nextInt()-1;
-                                if(sel2>=arreglo_peliculas.get(sel).getFunciones().size()){
-                                    System.out.println("Dato incorrecto");
-                                    horarioExists = false;
-                                }
-                            }while(!horarioExists);
-                            Asiento[][] asientos = arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getAsientos();
-                                System.out.println("  1 2 3 4 5 6 7 ");
-                            for (int i = 0; i < asientos.length; i++) {
-                                System.out.print((char)(i+65)+" ");
-                                for (int j = 0; j < asientos[i].length; j++) {
-                                    if (asientos[i][j].isDisponibilidad() == true) {
-                                        System.out.print("0 ");
-                                    } else {
-                                        System.out.print("x ");
-                                    }
-                                }
-                                System.out.println("");
-                            }
-                                System.out.println("////PANTALLA////");
-                            boolean filaCorrecta = false;
-                            int fila = -1;
-                            String letra = "";
-                            do {
-                                System.out.println("Por favor seleccione una fila(a,b,c)");
-                                letra = sc.next();
-                                if (letra.equals("a")) {
-                                    fila = 0;
-                                    filaCorrecta = true;
-                                } else if (letra.equals("b")) {
-                                    fila = 1;
-                                    filaCorrecta = true;
-                                } else if (letra.equals("c")) {
-                                    fila = 2;
-                                    filaCorrecta = true;
+                                System.out.println("Seleccione un horario");
+                                if (arreglo_peliculas.get(sel).getFunciones().size() == 0) {
+                                    System.out.println("No hay horarios disponibles");
+                                    seguirSelPelicula = false;
+                                    Thread.sleep(1000);
                                 } else {
-                                    System.out.println("Dato incorrecto");
-                                }
-                            } while (!filaCorrecta);
-                            boolean asientoDisponible = false;
-                            int col = 0;
-                            do {
-                                System.out.println("Por favor seleccione una columna (1 a 7)");
-                                col = sc.nextInt() - 1;
+                                    for (int i = 0; i < arreglo_peliculas.get(sel).getFunciones().size(); i++) {
+                                        System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getFunciones().get(i).getHora());
+                                    }
+                                    int sel2 = 0;
+                                    boolean horarioExists = true;
+                                    do {
+                                        horarioExists = true;
+                                        sel2 = sc.nextInt() - 1;
+                                        if (sel2 >= arreglo_peliculas.get(sel).getFunciones().size()) {
+                                            System.out.println("Dato incorrecto");
+                                            horarioExists = false;
+                                        }
+                                    } while (!horarioExists);
+                                    Asiento[][] asientos = arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getAsientos();
+                                    System.out.println("  1 2 3 4 5 6 7 ");
+                                    for (int i = 0; i < asientos.length; i++) {
+                                        System.out.print((char) (i + 65) + " ");
+                                        for (int j = 0; j < asientos[i].length; j++) {
+                                            if (asientos[i][j].isDisponibilidad() == true) {
+                                                System.out.print("0 ");
+                                            } else {
+                                                System.out.print("x ");
+                                            }
+                                        }
+                                        System.out.println("");
+                                    }
+                                    System.out.println("////PANTALLA////");
+                                    boolean filaCorrecta = false;
+                                    int fila = -1;
+                                    String letra = "";
+                                    do {
+                                        System.out.println("Por favor seleccione una fila(a,b,c)");
+                                        letra = sc.next();
+                                        if (letra.equals("a")) {
+                                            fila = 0;
+                                            filaCorrecta = true;
+                                        } else if (letra.equals("b")) {
+                                            fila = 1;
+                                            filaCorrecta = true;
+                                        } else if (letra.equals("c")) {
+                                            fila = 2;
+                                            filaCorrecta = true;
+                                        } else {
+                                            System.out.println("Dato incorrecto");
+                                        }
+                                    } while (!filaCorrecta);
+                                    boolean asientoDisponible = false;
+                                    int col = 0;
+                                    do {
+                                        System.out.println("Por favor seleccione una columna (1 a 7)");
+                                        col = sc.nextInt() - 1;
 
-                                if (asientos[fila][col].isDisponibilidad()) {
-                                    asientoDisponible = true;
-                                }else if(col>6){
-                                    System.out.println("El asiento no existe");
-                                }else {
-                                    System.out.println("El asiento está ocupado.");
-                                }
-                            } while (!asientoDisponible);
-                            Asiento asientoAux = new Asiento(letra.charAt(0), col, false);
-                            
-                            Thread.sleep(1000);
-                            limpiarPantalla();
-                            System.out.println("Por favor, confirme su selección (si/no).");
-                            System.out.println("Película: " + arreglo_peliculas.get(sel).getTitulo());
-                            System.out.println("Hora: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getHora());
-                            System.out.println("Asiento: " + letra + (col+1));
-                            System.out.println("Sala: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getNumSala());
-                            String confirmacion = sc.next();
-                            if(confirmacion.equals("no")){
-                                seguirSelPelicula = true;
-                            }else{
-                                for (int i = 0; i < arreglo_clientes.size(); i++) {
-                                    if(id_prueba == arreglo_clientes.get(i).getDocumento()){
-                                        clientesConAsiento.add(new Cliente(arreglo_clientes.get(i).getNombre(),arreglo_clientes.get(i).getEdad(),arreglo_clientes.get(i).getDocumento()));
-                                        clientesConAsiento.get(clientesConAsiento.size()-1).setAsiento(asientoAux);
-                                        clientesConAsiento.get(clientesConAsiento.size()-1).setFuncion(arreglo_peliculas.get(sel).getFunciones().get(sel2));                                          
+                                        if (asientos[fila][col].isDisponibilidad()) {
+                                            asientoDisponible = true;
+                                        } else if (col > 6) {
+                                            System.out.println("El asiento no existe");
+                                        } else {
+                                            System.out.println("El asiento está ocupado.");
+                                        }
+                                    } while (!asientoDisponible);
+                                    Asiento asientoAux = new Asiento(letra.charAt(0), col, false);
+
+                                    Thread.sleep(1000);
+                                    limpiarPantalla();
+                                    System.out.println("Por favor, confirme su selección (si/no).");
+                                    System.out.println("Película: " + arreglo_peliculas.get(sel).getTitulo());
+                                    System.out.println("Hora: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getHora());
+                                    System.out.println("Asiento: " + letra + (col + 1));
+                                    System.out.println("Sala: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getNumSala());
+                                    String confirmacion = sc.next();
+                                    if (confirmacion.equals("no")) {
+                                        seguirSelPelicula = true;
+                                    } else {
+
+                                        if (arbolClientes.contains(id_prueba)) {
+                                            clientesConAsiento.add(new Cliente(arbolClientes.find(id_prueba).getNombre(), arbolClientes.find(id_prueba).getEdad(), arbolClientes.find(id_prueba).getDocumento()));
+                                            clientesConAsiento.get(clientesConAsiento.size() - 1).setAsiento(asientoAux);
+                                            clientesConAsiento.get(clientesConAsiento.size() - 1).setFuncion(arreglo_peliculas.get(sel).getFunciones().get(sel2));
+                                        }
+
+                                        seguirSelPelicula = false;
+                                        System.out.println("Compra exitosa.");
+                                        Thread.sleep(1000);
                                     }
                                 }
-                                seguirSelPelicula = false;
-                                System.out.println("Compra exitosa.");
-                                Thread.sleep(1000);
-                            }
                             }while(seguirSelPelicula);
                         }
                     }
