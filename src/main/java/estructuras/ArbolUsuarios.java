@@ -5,6 +5,8 @@
  */
 package estructuras;
 import clases.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 /**
  *
@@ -157,5 +159,18 @@ public class ArbolUsuarios {
             return -1;
         else
             return 1+Math.max(height(nodo.getLeft()), height(nodo.getRight()));
+    }
+    
+    private void leer(NodoArbolUsuario nodo,BufferedWriter writerInv) throws IOException{
+        if(nodo != null){
+            writerInv.write(nodo.getKey().getNombre() + " " + nodo.getKey().getEdad() + " " + nodo.getKey().getDocumento());
+            writerInv.newLine();
+            leer(nodo.getLeft(),writerInv);
+            leer(nodo.getRight(),writerInv);
+        }
+    }
+    
+    public void read(BufferedWriter writerInv) throws IOException{
+        leer(this.root,writerInv);
     }
 }
