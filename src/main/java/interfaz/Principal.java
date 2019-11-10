@@ -17,13 +17,22 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void recibirArbol(ArbolUsuarios arbol){
-        
+   public void recibirArbolclientes(ArbolUsuarios arbol){
+        this.arbolClientes=arbol;
+    }
+  
+        public void recibirArbolEmpleados(ArbolUsuarios arbol){
+        this.arbolEmpleados=arbol;
     }
     
-    public ArbolUsuarios sacarArbol(){
-        return null;
+    public ArbolUsuarios sacarArbolClientes(){
+        return this.arbolClientes;
     }
+    
+    public ArbolUsuarios sacarArbolEmpleados(){
+        return this.arbolEmpleados;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -187,8 +196,13 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreEmpleadoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+              if(codigovendedor.getText().equals("0000")){
         Acciones acciones = new Acciones();
-        acciones.setVisible(true);
+        acciones.setVisible(true);   
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Código incorrecto");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
