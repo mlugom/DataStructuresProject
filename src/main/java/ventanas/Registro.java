@@ -47,7 +47,7 @@ public class Registro {
 
     
 
-    public static void escribirArchivo(DinamicArr<Usuario> entradas, String rutaArchivo) {
+    public static void escribirArchivo(ArbolUsuarios entradas, String rutaArchivo) throws IOException {
         BufferedWriter writerInv = null;
         try {
             writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
@@ -55,7 +55,7 @@ public class Registro {
             ex.printStackTrace();
         }
 
-        for (int i = 0; i < entradas.size(); i++) {
+        /*for (int i = 0; i < entradas.size(); i++) {
             try {
 
                 writerInv.write(entradas.get(i).getNombre() + " " + entradas.get(i).getEdad() + " " + entradas.get(i).getDocumento());
@@ -63,7 +63,9 @@ public class Registro {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
+        }*/
+        
+        entradas.read(writerInv);
 
         try {
             writerInv.close();
@@ -99,11 +101,11 @@ public class Registro {
 
     }
 
-      public static DinamicArr<Usuario> leerArchivo(String filePath) throws FileNotFoundException {
+      public static ArbolUsuarios leerArchivo(String filePath) throws FileNotFoundException {
 
         File prueba = new File(filePath);
         Scanner s = new Scanner(prueba);
-        DinamicArr<Usuario> data = new DinamicArr<>();
+        ArbolUsuarios data = new ArbolUsuarios();
         String Name_provicional = "";
         int edad_provicional = 0, id_provicional = 0;
 
@@ -114,7 +116,7 @@ public class Registro {
             edad_provicional = Integer.parseInt(s.next());
 
             id_provicional = Integer.parseInt(s.next());
-            data.add(new Usuario(Name_provicional, id_provicional, id_provicional));
+            data.insert(new Usuario(Name_provicional, id_provicional, id_provicional));
         }
         s.close();
 
@@ -170,10 +172,8 @@ public class Registro {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        DinamicArr<Usuario> arreglo_empleados = new DinamicArr<>();
-        DinamicArr<Usuario> arreglo_clientes = new DinamicArr<>();
         DinamicArr<Pelicula> arreglo_peliculas = new DinamicArr<>();
-        DinamicArr<Cliente> clientesConAsiento = new DinamicArr<>();
+        ArbolUsuarios clientesConAsiento = new ArbolUsuarios();
         ArbolUsuarios arbolClientes = new ArbolUsuarios();
         ArbolUsuarios arbolEmpleados = new ArbolUsuarios();
         
@@ -182,10 +182,10 @@ public class Registro {
         
 
         Sala[] salas = new Sala[3];
-        for (int i = 0; i < 3; i++) {
-            salas[i] = new Sala(i + 1);
+        for (int i = 1; i <= 3; i++) {
+            salas[i-1] = new Sala(i);
         }
-        Date fecha = new Date(2019, 11, 10);
+        Fecha fecha = new Fecha(10,11,2019);
         int hora = 6;
 
         String ruta_clientes = "clientes.txt";
@@ -195,17 +195,13 @@ public class Registro {
         ////Acá leemos la base de datos 
         // Y sobreescribimos
         
-        arreglo_clientes = leerArchivo(ruta_clientes);
-        for(int i=0; i<arreglo_clientes.size();i++){
-            arbolClientes.insert(arreglo_clientes.get(i));
-        }
-        escribirArchivo(arreglo_clientes, ruta_clientes);
+        arbolClientes = leerArchivo(ruta_clientes);
+        
+        escribirArchivo(arbolClientes, ruta_clientes);
        
-        arreglo_empleados = leerArchivo(ruta_empleados);
-        for(int i=0; i<arreglo_empleados.size();i++){
-            arbolClientes.insert(arreglo_empleados.get(i));
-        }
-        escribirArchivo(arreglo_empleados, ruta_empleados);
+        arbolEmpleados = leerArchivo(ruta_empleados);
+        
+        escribirArchivo(arbolEmpleados, ruta_empleados);
          
         arreglo_peliculas = leerArchivopel(ruta_peliculas);
         escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
@@ -342,28 +338,28 @@ public class Registro {
                                         System.out.print("La fecha de hoy es " + fecha.getDay() +"/"+ fecha.getMonth() +"/"+ fecha.getYear()+". ¿Desea actualizar? (s/n): ");
                                         String seleccionFecha = sc.next();
                                         if(seleccionFecha.equals("s")){
-                                            Date nuevaFecha = new Date();
+                                            Fecha nuevaFecha = new Fecha();
                                             if(fecha.getDay() < 28){
-                                                nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);                                                
+                                                nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);                                                
                                             }else if(fecha.getMonth() == 1){
-                                                nuevaFecha = new Date(fecha.getYear(),2,1);                                              
+                                                nuevaFecha = new Fecha(fecha.getYear(),2,1);                                              
                                             }else if((fecha.getMonth() <= 6 && fecha.getMonth()%2 == 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth()%2 != 0)){
                                                 if(fecha.getDay() < 31){
-                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
                                                 }else{
-                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth()+1,1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth()+1,1);
                                                 }                              
                                             }else if((fecha.getMonth() <= 6 && fecha.getMonth()%2 != 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth()%2 == 0)){
                                                 if(fecha.getDay() < 30){
-                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
                                                 }else{
-                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth()+1,1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth()+1,1);
                                                 }
                                             }else{
                                                 if(fecha.getDay() < 31){
-                                                    nuevaFecha = new Date(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(),fecha.getMonth(),fecha.getDay()+1);
                                                 }else{
-                                                    nuevaFecha = new Date(fecha.getYear()+1,0,1);
+                                                    nuevaFecha = new Fecha(fecha.getYear()+1,0,1);
                                                 }
                                             }
                                             fecha = nuevaFecha;
@@ -375,35 +371,47 @@ public class Registro {
                                     case 2:
                                         Thread.sleep(1000);
                                         limpiarPantalla();                                     
-                                        System.out.print("Hora: " + hora + ". ¿Desea actualizar? (s/n)");
+                                        System.out.print("Hora: " + hora + ". ¿Desea actualizar? (s/n) ");
                                         String seleccionHora = sc.next();                                    
                                         if(seleccionHora.equals("s")){
+                                            for(int i = 0; i<3; i++){
+                                                if(hora >= salas[i].getHoraFuncion()+3){
+                                                    salas[i].despacharFuncion();        
+                                                }
+                                            }
+                                            for(int i = 0; i < arreglo_peliculas.size();i++){
+                                                for(int j = 0; j< arreglo_peliculas.get(i).getFunciones().size();i++){
+                                                    if(arreglo_peliculas.get(i).getFunciones().get(j).getHora() == hora){
+                                                        arreglo_peliculas.get(i).getFunciones().remove(j);
+                                                    }
+                                                }
+                                            }
                                             if(hora < 21){
                                                 hora+=3;
                                             }else{
                                                 hora = 6;
-                                                Date nuevaFecha = new Date();
+                                                Fecha nuevaFecha = new Fecha();
                                                 if (fecha.getDay() < 28) {
-                                                    nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
                                                 } else if (fecha.getMonth() == 1) {
-                                                    nuevaFecha = new Date(fecha.getYear(), 2, 1);
+                                                    nuevaFecha = new Fecha(fecha.getYear(), 2, 1);
                                                 } else if ((fecha.getMonth() <= 6 && fecha.getMonth() % 2 == 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth() % 2 != 0)) {
                                                     if (fecha.getDay() < 31) {
-                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
                                                     } else {
-                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth() + 1, 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth() + 1, 1);
                                                     }
                                                 } else if ((fecha.getMonth() <= 6 && fecha.getMonth() % 2 != 0) || (fecha.getMonth() > 6 && fecha.getMonth() < 11 && fecha.getMonth() % 2 == 0)) {
                                                     if (fecha.getDay() < 30) {
-                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
                                                     } else {
-                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth() + 1, 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth() + 1, 1);
                                                     }
                                                 } else {
                                                     if (fecha.getDay() < 31) {
-                                                        nuevaFecha = new Date(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear(), fecha.getMonth(), fecha.getDay() + 1);
                                                     } else {
-                                                        nuevaFecha = new Date(fecha.getYear() + 1, 0, 1);
+                                                        nuevaFecha = new Fecha(fecha.getYear() + 1, 0, 1);
                                                     }
                                                 }
                                                 fecha = nuevaFecha;
@@ -473,7 +481,7 @@ public class Registro {
                                                                     contadorSala = 0;
                                                                 }
                                                                 arreglo_peliculas.get(indicePelicula).addFuncion(funcAux);
-                                                                System.out.println("La película quedó para las " + funcAux.getHora() + " en la sala " + (funcAux.getSala().getNumSala()+1) + ".");
+                                                                System.out.println("La película quedó para las " + funcAux.getHora() + " en la sala " + (funcAux.getSala().getNumSala()) + ".");
 
                                                                 Thread.sleep(2000);
                                                                 limpiarPantalla();
@@ -485,8 +493,13 @@ public class Registro {
                                                                 }
                                                             }
                                                         } while (seguirAgregandoHorario);
-                                                        break;
+                                                    } else {
+                                                        System.out.println("Sólo se pueden asignar funciones a las 6.");
+                                                        Thread.sleep(3000);
+                                                        limpiarPantalla();
                                                     }
+                                                    break;
+
                                                 case 3:
                                                     seguirActualizandoPelicula = false;
                                                     break;
@@ -531,7 +544,7 @@ public class Registro {
                                     Thread.sleep(1000);
                                 } else {
                                     for (int i = 0; i < arreglo_peliculas.get(sel).getFunciones().size(); i++) {
-                                        System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getFunciones().get(i).getHora());
+                                        System.out.println((i + 1) + ") " + arreglo_peliculas.get(sel).getFunciones().get(i).getHora());
                                     }
                                     int sel2 = 0;
                                     boolean horarioExists = true;
@@ -543,7 +556,7 @@ public class Registro {
                                             horarioExists = false;
                                         }
                                     } while (!horarioExists);
-                                    Asiento[][] asientos = arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getAsientos();
+                                    Asiento[][] asientos = arreglo_peliculas.get(sel).getFunciones().get(sel2).getAsientos();
                                     System.out.println("  1 2 3 4 5 6 7 ");
                                     for (int i = 0; i < asientos.length; i++) {
                                         System.out.print((char) (i + 65) + " ");
@@ -590,7 +603,7 @@ public class Registro {
                                             System.out.println("El asiento está ocupado.");
                                         }
                                     } while (!asientoDisponible);
-                                    Asiento asientoAux = new Asiento(letra.charAt(0), col, false);
+                                    Asiento asientoAux = new Asiento(letra.charAt(0), col, false);                                    
 
                                     Thread.sleep(1000);
                                     limpiarPantalla();
@@ -605,9 +618,11 @@ public class Registro {
                                     } else {
 
                                         if (arbolClientes.contains(id_prueba)) {
-                                            clientesConAsiento.add(new Cliente(arbolClientes.find(id_prueba).getNombre(), arbolClientes.find(id_prueba).getEdad(), arbolClientes.find(id_prueba).getDocumento()));
-                                            clientesConAsiento.get(clientesConAsiento.size() - 1).setAsiento(asientoAux);
-                                            clientesConAsiento.get(clientesConAsiento.size() - 1).setFuncion(arreglo_peliculas.get(sel).getFunciones().get(sel2));
+                                            Cliente clienteAux = new Cliente(arbolClientes.find(id_prueba).getNombre(), arbolClientes.find(id_prueba).getEdad(), arbolClientes.find(id_prueba).getDocumento());
+                                            clienteAux.setAsiento(asientoAux);
+                                            clienteAux.setFuncion(arreglo_peliculas.get(sel).getFunciones().get(sel2));
+                                            clientesConAsiento.insert(clienteAux);
+                                            arreglo_peliculas.get(sel).getFunciones().get(sel2).ocuparAsiento(fila, col);
                                         }
 
                                         seguirSelPelicula = false;
@@ -638,9 +653,8 @@ public class Registro {
 
                         if (clave_dinamico.equals("0000")) {
                             Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);
-                            arreglo_empleados.add(empleadoAux);
                             arbolEmpleados.insert(empleadoAux);
-                            escribirArchivo(arreglo_empleados, ruta_empleados);
+                            escribirArchivo(arbolEmpleados, ruta_empleados);
 
                             System.out.println("Registrado con éxito");
                             Thread.sleep(2000);
@@ -653,9 +667,8 @@ public class Registro {
 
                     } else {
                         Cliente clienteAux = new Cliente(nombre_dinamico, edad_dinamico, id_dinamico);
-                        arreglo_clientes.add(clienteAux);
                         arbolClientes.insert(clienteAux);
-                        escribirArchivo(arreglo_clientes, ruta_clientes);
+                        escribirArchivo(arbolClientes, ruta_clientes);
 
                         System.out.println("Registrado con éxito");
                         Thread.sleep(2000);
@@ -667,26 +680,34 @@ public class Registro {
                 case 3:
                   limpiarPantalla();
                     
-                    
-                    for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                        System.out.println((i+1) + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
-                                + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
-                    }
+                    if (arreglo_peliculas.size() != 0) {
+                        for (int i = 0; i < arreglo_peliculas.size(); i++) {
+                            System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
+                                    + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
+                        }
 
-                    System.out.println("");
-                    System.out.println("¿Qué película desea consultar?");
-                    int numPel = sc.nextInt();
+                        System.out.println("");
+                        System.out.println("¿Qué película desea consultar?");
+                        int numPel = sc.nextInt();
 
-                    limpiarPantalla();
-                    //Hay que poner -1 porque el arreglo empieza en 0
-                    System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
-                    System.out.println("");
-                    
-                    for (int i = 0; i < arreglo_peliculas.get(numPel-1).getFunciones().size(); i++) {
-                        System.out.println(arreglo_peliculas.get(numPel-1).getFunciones().get(i).getHora());
+                        limpiarPantalla();
+                        //Hay que poner -1 porque el arreglo empieza en 0
+                        System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
+                        System.out.println("");
+
+                        if (arreglo_peliculas.get(numPel - 1).getFunciones().size() != 0) {
+                            System.out.println("Horarios:");
+                            for (int i = 0; i < arreglo_peliculas.get(numPel - 1).getFunciones().size(); i++) {
+                                System.out.println((i+1) + ") " + arreglo_peliculas.get(numPel - 1).getFunciones().get(i).getHora());
+                            }
+                        } else {
+                            System.out.println("No hay horarios disponibles.");
+                        }
+                        System.out.println("Escriba un caracter para continuar");
+                        sc.next();
+                    } else {
+                        System.out.println("No hay películas en cartelera.");
                     }
-                    System.out.println("Escriba un caracter para continuar");
-                    sc.next();
                     break;
                     
             }

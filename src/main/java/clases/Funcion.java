@@ -12,22 +12,29 @@ import java.util.*;
  */
 public class Funcion {
     private Pelicula pelicula;
-    private Date fecha;
+    private Fecha fecha;
     private int hora;
     private Sala sala;
+    private Asiento[][] asientos;
 
-    public Funcion(Pelicula pelicula, Date fecha, int hora, Sala sala) {
+    public Funcion(Pelicula pelicula, Fecha fecha, int hora, Sala sala) {
         this.pelicula = pelicula;
         this.fecha = fecha;
         this.hora = hora;
         this.sala = sala;
+        this.asientos = new Asiento[3][7]; 
+        for(int i=0;i<asientos.length;i++){
+            for(int j=0;j<asientos[i].length;j++){
+                asientos[i][j]= new Asiento((char)(i+65),j,true);
+            }
+        }
     }
 
     public Pelicula getPelicula() {
         return pelicula;
     }
 
-    public Date getFecha() {
+    public Fecha getFecha() {
         return fecha;
     }
 
@@ -43,7 +50,7 @@ public class Funcion {
         this.pelicula = pelicula;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Fecha fecha) {
         this.fecha = fecha;
     }
 
@@ -54,6 +61,19 @@ public class Funcion {
     public void setSala(Sala sala) {
         this.sala = sala;
     }
+
+    public Asiento[][] getAsientos() {
+        return asientos;
+    }
+    
+    public void ocuparAsiento(int i, int j){
+        this.asientos[i][j].setDisponibilidad(false);
+    }
+
+    public void setAsientos(Asiento[][] asientos) {
+        this.asientos = asientos;
+    }
+    
     
     
 }

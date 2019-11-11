@@ -5,6 +5,7 @@
  */
 package interfaz;
 import estructuras.*;
+import javax.swing.JOptionPane;
 
 /**
  *
