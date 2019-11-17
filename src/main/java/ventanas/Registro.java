@@ -75,7 +75,7 @@ public class Registro {
 
     }
 
-    public static void escribirArchivopeli(DinamicArr<Pelicula> entradas, String rutaArchivo) {
+    public static void escribirArchivopeli(HeapDouble entradas, String rutaArchivo) {
         BufferedWriter writerInv = null;
         try {
             writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
@@ -86,7 +86,7 @@ public class Registro {
         for (int i = 0; i < entradas.size(); i++) {
             try {
 
-                writerInv.write(entradas.get(i).getTitulo() + " " + entradas.get(i).getDuracion() + " " + entradas.get(i).getEdadMinima());
+                writerInv.write(entradas.getArreglo().get(i).getTitulo() + " " + entradas.getArreglo().get(i).getDuracion() + " " + entradas.getArreglo().get(i).getEdadMinima() + " " + entradas.getArreglo().get(i).getPuntuacion());
                 writerInv.newLine();
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -123,19 +123,21 @@ public class Registro {
         return data;
     }
 
-    public static DinamicArr<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
+    public static HeapDouble leerArchivopel(String filePath) throws FileNotFoundException {
 
         Scanner s = new Scanner(new File(filePath));
-        DinamicArr<Pelicula> data = new DinamicArr<>();
+        HeapDouble data = new HeapDouble();
         String Name_provicional = "";
         int duracion_provicional = 0, edadM_provicional = 0;
+        double puntuacion_provicional = 0;
 
         
         while(s.hasNext()) {
             Name_provicional = s.next();
             duracion_provicional = Integer.parseInt(s.next());
             edadM_provicional = Integer.parseInt(s.next());
-            data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional));
+            puntuacion_provicional = Double.parseDouble(s.next());
+            data.insert(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional,puntuacion_provicional));
         }
         s.close();
 
@@ -172,7 +174,7 @@ public class Registro {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        DinamicArr<Pelicula> arreglo_peliculas = new DinamicArr<>();
+        HeapDouble arreglo_peliculas = new HeapDouble();
         ArbolUsuarios clientesConAsiento = new ArbolUsuarios();
         ArbolUsuarios arbolClientes = new ArbolUsuarios();
         ArbolUsuarios arbolEmpleados = new ArbolUsuarios();
@@ -380,9 +382,9 @@ public class Registro {
                                                 }
                                             }
                                             for(int i = 0; i < arreglo_peliculas.size();i++){
-                                                for(int j = 0; j< arreglo_peliculas.get(i).getFunciones().size();i++){
-                                                    if(arreglo_peliculas.get(i).getFunciones().get(j).getHora() == hora){
-                                                        arreglo_peliculas.get(i).getFunciones().remove(j);
+                                                for(int j = 0; j< arreglo_peliculas.getArreglo().get(i).getFunciones().size();i++){
+                                                    if(arreglo_peliculas.getArreglo().get(i).getFunciones().get(j).getHora() == hora){
+                                                        arreglo_peliculas.getArreglo().get(i).getFunciones().remove(j);
                                                     }
                                                 }
                                             }
@@ -443,7 +445,9 @@ public class Registro {
                                                         int duracion = sc.nextInt();
                                                         System.out.print("Ingrese edad mínima: ");
                                                         int edadMinima = sc.nextInt();
-                                                        arreglo_peliculas.add(new Pelicula(titulo, duracion, edadMinima));
+                                                        System.out.print("Ingrese puntuación promedio de la película: ");
+                                                        double puntuacion = sc.nextDouble();
+                                                        arreglo_peliculas.insert(new Pelicula(titulo, duracion, edadMinima, puntuacion));
                                                         escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
                                                         System.out.println("Película agregada satisfactoriamente");
                                                         Thread.sleep(2000);
@@ -468,19 +472,19 @@ public class Registro {
                                                                 seguirAgregandoHorario = false;
                                                             } else {
                                                                 System.out.println("Seleccione película");
-                                                                for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                                                                    System.out.println((i + 1) + ". " + arreglo_peliculas.get(i).getTitulo());
+                                                                for (int i = 1; i <= arreglo_peliculas.size(); i++) {
+                                                                    System.out.println(i + ". " + arreglo_peliculas.getArreglo().get(i).getTitulo() + ". Puntuación: " + arreglo_peliculas.getArreglo().get(i).getPuntuacion());
                                                                 }
-                                                                int indicePelicula = sc.nextInt() - 1;                                             
+                                                                int indicePelicula = sc.nextInt();                                             
                                                                 
-                                                                Funcion funcAux = new Funcion(arreglo_peliculas.get(indicePelicula), fecha, salas[contadorSala].getHoraFuncion(), salas[contadorSala]);
-                                                                salas[contadorSala].addFuncion(arreglo_peliculas.get(indicePelicula), fecha);
+                                                                Funcion funcAux = new Funcion(arreglo_peliculas.getArreglo().get(indicePelicula), fecha, salas[contadorSala].getHoraFuncion(), salas[contadorSala]);
+                                                                salas[contadorSala].addFuncion(arreglo_peliculas.getArreglo().get(indicePelicula), fecha);
                                                                 if(contadorSala < 2){
                                                                     contadorSala++;
                                                                 }else{
                                                                     contadorSala = 0;
                                                                 }
-                                                                arreglo_peliculas.get(indicePelicula).addFuncion(funcAux);
+                                                                arreglo_peliculas.getArreglo().get(indicePelicula).addFuncion(funcAux);
                                                                 System.out.println("La película quedó para las " + funcAux.getHora() + " en la sala " + (funcAux.getSala().getNumSala()) + ".");
 
                                                                 Thread.sleep(2000);
@@ -521,14 +525,14 @@ public class Registro {
                             boolean seguirSelPelicula = false;
                             do{
                             System.out.println("Bienvenido, señor(a) cliente. Por favor seleccione la película que desea ver.");
-                            for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                                System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getTitulo());
+                            for (int i = 1; i <= arreglo_peliculas.size(); i++) {
+                                System.out.println(i + ") " + arreglo_peliculas.getArreglo().get(i).getTitulo() + ". Puntuación: " + arreglo_peliculas.getArreglo().get(i).getPuntuacion());
                             }
                             int sel = 0;
                             boolean peliculaExists = true;
                             do{
                                 peliculaExists = true;
-                                sel = sc.nextInt()-1;
+                                sel = sc.nextInt();
                                 if(sel>=arreglo_peliculas.size()){
                                     System.out.println("Dato incorrecto");
                                     peliculaExists = false;
@@ -538,25 +542,25 @@ public class Registro {
                             
 
                                 System.out.println("Seleccione un horario");
-                                if (arreglo_peliculas.get(sel).getFunciones().size() == 0) {
+                                if (arreglo_peliculas.getArreglo().get(sel).getFunciones().size() == 0) {
                                     System.out.println("No hay horarios disponibles");
                                     seguirSelPelicula = false;
                                     Thread.sleep(1000);
                                 } else {
-                                    for (int i = 0; i < arreglo_peliculas.get(sel).getFunciones().size(); i++) {
-                                        System.out.println((i + 1) + ") " + arreglo_peliculas.get(sel).getFunciones().get(i).getHora());
+                                    for (int i = 0; i < arreglo_peliculas.getArreglo().get(sel).getFunciones().size(); i++) {
+                                        System.out.println((i + 1) + ") " + arreglo_peliculas.getArreglo().get(sel).getFunciones().get(i).getHora());
                                     }
                                     int sel2 = 0;
                                     boolean horarioExists = true;
                                     do {
                                         horarioExists = true;
                                         sel2 = sc.nextInt() - 1;
-                                        if (sel2 >= arreglo_peliculas.get(sel).getFunciones().size()) {
+                                        if (sel2 >= arreglo_peliculas.getArreglo().get(sel).getFunciones().size()) {
                                             System.out.println("Dato incorrecto");
                                             horarioExists = false;
                                         }
                                     } while (!horarioExists);
-                                    Asiento[][] asientos = arreglo_peliculas.get(sel).getFunciones().get(sel2).getAsientos();
+                                    Asiento[][] asientos = arreglo_peliculas.getArreglo().get(sel).getFunciones().get(sel2).getAsientos();
                                     System.out.println("  1 2 3 4 5 6 7 ");
                                     for (int i = 0; i < asientos.length; i++) {
                                         System.out.print((char) (i + 65) + " ");
@@ -608,10 +612,10 @@ public class Registro {
                                     Thread.sleep(1000);
                                     limpiarPantalla();
                                     System.out.println("Por favor, confirme su selección (si/no).");
-                                    System.out.println("Película: " + arreglo_peliculas.get(sel).getTitulo());
-                                    System.out.println("Hora: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getHora());
+                                    System.out.println("Película: " + arreglo_peliculas.getArreglo().get(sel).getTitulo());
+                                    System.out.println("Hora: " + arreglo_peliculas.getArreglo().get(sel).getFunciones().get(sel2).getHora());
                                     System.out.println("Asiento: " + letra + (col + 1));
-                                    System.out.println("Sala: " + arreglo_peliculas.get(sel).getFunciones().get(sel2).getSala().getNumSala());
+                                    System.out.println("Sala: " + arreglo_peliculas.getArreglo().get(sel).getFunciones().get(sel2).getSala().getNumSala());
                                     String confirmacion = sc.next();
                                     if (confirmacion.equals("no")) {
                                         seguirSelPelicula = true;
@@ -620,9 +624,9 @@ public class Registro {
                                         if (arbolClientes.contains(id_prueba)) {
                                             Cliente clienteAux = new Cliente(arbolClientes.find(id_prueba).getNombre(), arbolClientes.find(id_prueba).getEdad(), arbolClientes.find(id_prueba).getDocumento());
                                             clienteAux.setAsiento(asientoAux);
-                                            clienteAux.setFuncion(arreglo_peliculas.get(sel).getFunciones().get(sel2));
+                                            clienteAux.setFuncion(arreglo_peliculas.getArreglo().get(sel).getFunciones().get(sel2));
                                             clientesConAsiento.insert(clienteAux);
-                                            arreglo_peliculas.get(sel).getFunciones().get(sel2).ocuparAsiento(fila, col);
+                                            arreglo_peliculas.getArreglo().get(sel).getFunciones().get(sel2).ocuparAsiento(fila, col);
                                         }
 
                                         seguirSelPelicula = false;
@@ -681,9 +685,9 @@ public class Registro {
                   limpiarPantalla();
                     
                     if (arreglo_peliculas.size() != 0) {
-                        for (int i = 0; i < arreglo_peliculas.size(); i++) {
-                            System.out.println((i + 1) + ") " + arreglo_peliculas.get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.get(i).getDuracion() + " horas ....."
-                                    + " Edad Minima: " + arreglo_peliculas.get(i).getEdadMinima());
+                        for (int i = 1; i <= arreglo_peliculas.size(); i++) {
+                            System.out.println((i + 1) + ") " + arreglo_peliculas.getArreglo().get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.getArreglo().get(i).getDuracion() + " horas ....."
+                                    + " Edad Minima: " + arreglo_peliculas.getArreglo().get(i).getEdadMinima() + " ..... Puntuación: " + arreglo_peliculas.getArreglo().get(i).getPuntuacion());
                         }
 
                         System.out.println("");
@@ -691,14 +695,13 @@ public class Registro {
                         int numPel = sc.nextInt();
 
                         limpiarPantalla();
-                        //Hay que poner -1 porque el arreglo empieza en 0
-                        System.out.println("                                " + arreglo_peliculas.get(numPel - 1).getTitulo());
+                        System.out.println("                                " + arreglo_peliculas.getArreglo().get(numPel - 1).getTitulo());
                         System.out.println("");
 
-                        if (arreglo_peliculas.get(numPel - 1).getFunciones().size() != 0) {
+                        if (arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().size() != 0) {
                             System.out.println("Horarios:");
-                            for (int i = 0; i < arreglo_peliculas.get(numPel - 1).getFunciones().size(); i++) {
-                                System.out.println((i+1) + ") " + arreglo_peliculas.get(numPel - 1).getFunciones().get(i).getHora());
+                            for (int i = 0; i < arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().size(); i++) {
+                                System.out.println((i+1) + ") " + arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().get(i).getHora());
                             }
                         } else {
                             System.out.println("No hay horarios disponibles.");
@@ -709,6 +712,8 @@ public class Registro {
                         System.out.println("No hay películas en cartelera.");
                     }
                     break;
+                default:
+                    
                     
             }
 

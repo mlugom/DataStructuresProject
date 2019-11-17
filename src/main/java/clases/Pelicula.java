@@ -15,12 +15,22 @@ public class Pelicula {
     private int duracion;
     private int edadMinima;
     private DinamicArr<Funcion> funciones;
+    private double puntuacion;
 
-    public Pelicula(String titulo, int duracion, int edadMinima) {
+    public Pelicula(String titulo, int duracion, int edadMinima, double puntuacion) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.edadMinima = edadMinima;
         this.funciones = new DinamicArr<>();
+        this.puntuacion = puntuacion;
+    }
+
+    public void setPuntuacion(double puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public double getPuntuacion() {
+        return puntuacion;
     }
 
     public String getTitulo() {

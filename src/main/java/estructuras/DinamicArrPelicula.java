@@ -5,24 +5,25 @@
  */
 package estructuras;
 
+import clases.Pelicula;
 import java.lang.reflect.Array;
 
 /**
  *
  * @author manuel
  */
-public class DinamicArrInt<T extends Comparable<?super T>> {
-    private Object[] arreglo;
+public class DinamicArrPelicula {
+    private Pelicula[] arreglo;
 
-    public DinamicArrInt() {
-        this.arreglo = new Object[2];
+    public DinamicArrPelicula() {
+        this.arreglo = new Pelicula[2];
     }
 
-    public Object[] getArreglo() {
+    public Pelicula[] getArreglo() {
         return arreglo;
     }
 
-    public void setArreglo(Object[] arreglo) {
+    public void setArreglo(Pelicula[] arreglo) {
         this.arreglo = arreglo;
     }
     
@@ -38,11 +39,11 @@ public class DinamicArrInt<T extends Comparable<?super T>> {
         return this.size() == this.arreglo.length-1;
     }
     
-    public void add(Object cosa){
+    public void add(Pelicula cosa){
         if(!this.full()){
             this.arreglo[this.size()] = cosa;
         }else{
-            Object[] arrAux = new Object[this.arreglo.length*2];
+            Pelicula[] arrAux = new Pelicula[this.arreglo.length*2];
             for (int i = 0; i < this.size(); i++) {
                 arrAux[i] = this.arreglo[i];
             }
@@ -52,19 +53,19 @@ public class DinamicArrInt<T extends Comparable<?super T>> {
         }
     }
     
-    public T get(int i){
-        return (T)this.arreglo[i];
+    public Pelicula get(int i){
+        return this.arreglo[i];
     }
     
-    public void set(T element, int i){
+    public void set(Pelicula element, int i){
         this.arreglo[i] = element;
     }
     
     public void sort(){
         for (int i = 0; i < this.size()-1; i++) {
             for(int j = 0; j < this.size()-1; j++){
-                if(this.get(j).compareTo(this.get(j+1)) > 0){
-                    T aux = this.get(j);
+                if(this.get(j).getPuntuacion() > this.get(j+1).getPuntuacion()){
+                    Pelicula aux = this.get(j);
                     this.arreglo[j] = this.get(j+1);
                     this.arreglo[j+1] = aux;
                 }
