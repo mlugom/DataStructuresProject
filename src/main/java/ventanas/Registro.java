@@ -83,7 +83,7 @@ public class Registro {
             ex.printStackTrace();
         }
 
-        for (int i = 0; i < entradas.size(); i++) {
+        for (int i = 1; i <= entradas.size(); i++) {
             try {
 
                 writerInv.write(entradas.getArreglo().get(i).getTitulo() + " " + entradas.getArreglo().get(i).getDuracion() + " " + entradas.getArreglo().get(i).getEdadMinima() + " " + entradas.getArreglo().get(i).getPuntuacion());
