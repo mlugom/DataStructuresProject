@@ -44,14 +44,16 @@ public class HeapDouble {
         boolean condicion = true;
         while(condicion){
             if(i > 1){
-                if(this.arreglo.get(this.parent(i)).getPuntuacion() < this.arreglo.get(i).getPuntuacion()){
-                    Pelicula varaux = arreglo.get(parent(i));
-                    arreglo.set(arreglo.get(i), parent(i));
-                    arreglo.set(varaux, i);
-                    i = parent(i);
-                    condicion = true;
-                }else{
-                    condicion = false;
+                if (arreglo.get(i) != null) {
+                    if (this.arreglo.get(this.parent(i)).getPuntuacion() < this.arreglo.get(i).getPuntuacion()) {
+                        Pelicula varaux = arreglo.get(parent(i));
+                        arreglo.set(arreglo.get(i), parent(i));
+                        arreglo.set(varaux, i);
+                        i = parent(i);
+                        condicion = true;
+                    } else {
+                        condicion = false;
+                    }
                 }
             }else{
                 condicion = false;
