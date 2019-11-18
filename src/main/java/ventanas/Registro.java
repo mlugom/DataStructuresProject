@@ -242,8 +242,8 @@ public class Registro {
             edad = (int) (Math.random() * 80);
             id = 10000000 + (int) (Math.random() * 9999999);
 
-            arreglo_clientes.add(new Cliente(name, edad, id));
-            escribirArchivo(arreglo_clientes, ruta_clientes);
+            arbolClientes.insert(new Cliente(name, edad, id));
+            escribirArchivo(arbolClientes, ruta_clientes);
             name = "";
         }
 //Agregamos empleados
@@ -259,8 +259,8 @@ public class Registro {
             edad = (int) (Math.random() * 80);
             id = 10000000 + (int) (Math.random() * 9999999);
 
-            arreglo_empleados.add(new Empleado(name, edad, id));
-            escribirArchivo(arreglo_empleados, ruta_empleados);
+            arbolEmpleados.insert(new Empleado(name, edad, id));
+            escribirArchivo(arbolEmpleados, ruta_empleados);
             name = "";
         }
 //Agregamos peliculas    
@@ -279,7 +279,7 @@ public class Registro {
             edadMin = 7 + (int) (Math.random() * 11);
             puntuacion = (Math.random() * 10);
 
-            arreglo_peliculas.add(new Pelicula(Tit, duration, edadMin,puntuacion));
+            arreglo_peliculas.insert(new Pelicula(Tit, duration, edadMin,puntuacion));
             escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
             Tit = "";
         }
