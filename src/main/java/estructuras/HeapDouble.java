@@ -41,13 +41,6 @@ public class HeapDouble {
     
     public void siftUp(int i){
         
-        while(i > 1 && this.arreglo.get(this.parent(i)).getPuntuacion() < this.arreglo.get(i).getPuntuacion()){
-            Pelicula varaux = arreglo.get(parent(i));
-            arreglo.set(arreglo.get(i), parent(i));
-            arreglo.set(varaux, i);
-            i = parent(i);
-        }
-        
         boolean condicion = true;
         while(condicion){
             if(i > 1){
