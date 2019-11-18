@@ -266,6 +266,7 @@ public class Registro {
 //Agregamos peliculas    
         String Tit = "";
         int duration = 0, edadMin = 0;
+        double puntuacion = 0;
 
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 8; i++) {
@@ -276,8 +277,9 @@ public class Registro {
             }
             duration = (int) (Math.random() * 3);
             edadMin = 7 + (int) (Math.random() * 11);
+            puntuacion = (Math.random() * 10);
 
-            arreglo_peliculas.add(new Pelicula(Tit, duration, edadMin));
+            arreglo_peliculas.add(new Pelicula(Tit, duration, edadMin,puntuacion));
             escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
             Tit = "";
         }
