@@ -16,7 +16,7 @@ public class HeapDouble {
 
     public HeapDouble() {
         arreglo = new DinamicArrPelicula();
-        arreglo.add(null);
+        arreglo.add(new Pelicula("", 0, 0, 0));
     }
 
     public DinamicArrPelicula getArreglo() {
