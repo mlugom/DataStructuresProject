@@ -202,9 +202,9 @@ public class Registro {
 //Acá se comenta y se descomenta (solo necesario la primera vez)
 //
         
-        
+        int cantidad = 10000000;
 //Agregamos clientes
-        for (int j = 0; j < 100; j++) {
+        for (int j = 0; j < cantidad; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
                 nombre[i] = (char) abc[el];
