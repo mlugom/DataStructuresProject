@@ -190,33 +190,7 @@ public class Registro {
         Fecha fecha = new Fecha(10,11,2019);
         int hora = 6;
 
-        String ruta_clientes = "clientes.txt";
-        String ruta_empleados = "empleados.txt";
-        String ruta_peliculas = "peliculas.txt";
-     
-        ////Acá leemos la base de datos 
-        // Y sobreescribimos
         
-        arbolClientes = leerArchivo(ruta_clientes);
-        
-        escribirArchivo(arbolClientes, ruta_clientes);
-       
-        arbolEmpleados = leerArchivo(ruta_empleados);
-        
-        escribirArchivo(arbolEmpleados, ruta_empleados);
-         
-        arreglo_peliculas = leerArchivopel(ruta_peliculas);
-        escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
-        
-        File archivo1 = new File(ruta_clientes);
-        if (!archivo1.exists()) {
-            archivo1.createNewFile();
-        }
-        FileWriter w = new FileWriter(archivo1);
-        BufferedWriter bw = new BufferedWriter(w);
-        PrintWriter wr = new PrintWriter(bw);
-
-        Scanner lecture = new Scanner(archivo1);
 
 //Acá se hace la parte de random
         char abc[] = {'a', 'b', 'c', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
@@ -227,7 +201,7 @@ public class Registro {
 //
 //Acá se comenta y se descomenta (solo necesario la primera vez)
 //
-        /*
+        
         
 //Agregamos clientes
         for (int j = 0; j < 100; j++) {
@@ -237,13 +211,11 @@ public class Registro {
 
                 name = name + nombre[i];
             }
-            rol = Math.random() < 0.5;
 
             edad = (int) (Math.random() * 80);
             id = 10000000 + (int) (Math.random() * 9999999);
 
             arbolClientes.insert(new Cliente(name, edad, id));
-            escribirArchivo(arbolClientes, ruta_clientes);
             name = "";
         }
 //Agregamos empleados
@@ -254,13 +226,11 @@ public class Registro {
 
                 name = name + nombre[i];
             }
-            rol = Math.random() < 0.5;
 
             edad = (int) (Math.random() * 80);
             id = 10000000 + (int) (Math.random() * 9999999);
 
             arbolEmpleados.insert(new Empleado(name, edad, id));
-            escribirArchivo(arbolEmpleados, ruta_empleados);
             name = "";
         }
 //Agregamos peliculas    
@@ -268,7 +238,7 @@ public class Registro {
         int duration = 0, edadMin = 0;
         double puntuacion = 0;
 
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < 0; j++) {
             for (int i = 0; i < 8; i++) {
                 int l = (int) (Math.random() * 12);
                  nombre[i] = (char) abc[l];
@@ -280,10 +250,9 @@ public class Registro {
             puntuacion = (Math.random() * 10);
 
             arreglo_peliculas.insert(new Pelicula(Tit, duration, edadMin,puntuacion));
-            escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
             Tit = "";
         }
-        */        
+               
         Scanner sc = new Scanner(System.in);
         boolean estado = true;
 
@@ -433,7 +402,8 @@ public class Registro {
                                             System.out.println("Seleccione accion");
                                             System.out.println("1. Agregar pelicula");
                                             System.out.println("2. Asignar función");
-                                            System.out.println("3. Regresar");
+                                            System.out.println("3. Sacar película");
+                                            System.out.println("4. Regresar");
                                             int selPelicula = sc.nextInt();
                                             switch (selPelicula) {
                                                 case 1:
@@ -448,9 +418,8 @@ public class Registro {
                                                         System.out.print("Ingrese edad mínima: ");
                                                         int edadMinima = sc.nextInt();
                                                         System.out.print("Ingrese puntuación promedio de la película: ");
-                                                        double puntuacion = sc.nextDouble();
+                                                        double puntuacionAux = sc.nextDouble();
                                                         arreglo_peliculas.insert(new Pelicula(titulo, duracion, edadMinima, puntuacion));
-                                                        escribirArchivopeli(arreglo_peliculas, ruta_peliculas);
                                                         System.out.println("Película agregada satisfactoriamente");
                                                         Thread.sleep(2000);
                                                         limpiarPantalla();
@@ -505,8 +474,38 @@ public class Registro {
                                                         limpiarPantalla();
                                                     }
                                                     break;
-
+                                                
                                                 case 3:
+                                                    boolean seguirSacando = true;
+                                                    do{
+                                                        Thread.sleep(1000);
+                                                        limpiarPantalla();
+                                                        if (arreglo_peliculas.isEmpty()) {
+                                                            System.out.println("No hay películas en cartelera");
+                                                            Thread.sleep(3000);
+                                                            seguirSacando = false;
+                                                        }else{
+                                                            System.out.println("Seleccione película");
+                                                                for (int i = 1; i <= arreglo_peliculas.size(); i++) {
+                                                                    System.out.println(i + ". " + arreglo_peliculas.getArreglo().get(i).getTitulo() + ". Puntuación: " + arreglo_peliculas.getArreglo().get(i).getPuntuacion());
+                                                                }
+                                                                int indicePelicula = sc.nextInt();
+                                                                arreglo_peliculas.remove(indicePelicula);
+                                                                limpiarPantalla();
+                                                                System.out.println("Película sacada de cartelera con éxito");
+                                                                Thread.sleep(2000);
+                                                                System.out.println("¿Desea sacar otra película? (s/n)");
+                                                                String respuesta = sc.next();
+                                                                if(respuesta.equals("s")){
+                                                                    seguirSacando = true;
+                                                                }else{
+                                                                    seguirSacando = false;
+                                                                }                                                                                                                                
+                                                        }
+                                                    }while(seguirSacando);
+                                                    break;
+
+                                                case 4:
                                                     seguirActualizandoPelicula = false;
                                                     break;
                                                 default:
@@ -660,7 +659,6 @@ public class Registro {
                         if (clave_dinamico.equals("0000")) {
                             Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);
                             arbolEmpleados.insert(empleadoAux);
-                            escribirArchivo(arbolEmpleados, ruta_empleados);
 
                             System.out.println("Registrado con éxito");
                             Thread.sleep(2000);
@@ -674,7 +672,6 @@ public class Registro {
                     } else {
                         Cliente clienteAux = new Cliente(nombre_dinamico, edad_dinamico, id_dinamico);
                         arbolClientes.insert(clienteAux);
-                        escribirArchivo(arbolClientes, ruta_clientes);
 
                         System.out.println("Registrado con éxito");
                         Thread.sleep(2000);
@@ -688,7 +685,7 @@ public class Registro {
                     
                     if (arreglo_peliculas.size() != 0) {
                         for (int i = 1; i <= arreglo_peliculas.size(); i++) {
-                            System.out.println((i + 1) + ") " + arreglo_peliculas.getArreglo().get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.getArreglo().get(i).getDuracion() + " horas ....."
+                            System.out.println(i + ") " + arreglo_peliculas.getArreglo().get(i).getTitulo() + " ..... Duración: " + arreglo_peliculas.getArreglo().get(i).getDuracion() + " horas ....."
                                     + " Edad Minima: " + arreglo_peliculas.getArreglo().get(i).getEdadMinima() + " ..... Puntuación: " + arreglo_peliculas.getArreglo().get(i).getPuntuacion());
                         }
 
@@ -712,6 +709,8 @@ public class Registro {
                         sc.next();
                     } else {
                         System.out.println("No hay películas en cartelera.");
+                        System.out.println("Escriba un caracter para continuar");
+                        sc.next();
                     }
                     break;
                 default:

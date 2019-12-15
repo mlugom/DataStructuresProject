@@ -16,7 +16,7 @@ public class HeapDouble {
 
     public HeapDouble() {
         arreglo = new DinamicArrPelicula();
-        arreglo.add(new Pelicula("", 0, 0, 0));
+        arreglo.add(new Pelicula("Está_mal", 0, 0, Double.MIN_VALUE));
     }
 
     public DinamicArrPelicula getArreglo() {
@@ -45,7 +45,7 @@ public class HeapDouble {
         while(condicion){
             if(i > 1){
                 if (arreglo.get(i) != null) {
-                    if (this.arreglo.get(this.parent(i)).getPuntuacion() < this.arreglo.get(i).getPuntuacion()) {
+                    if (this.arreglo.get(parent(i)).getPuntuacion() < this.arreglo.get(i).getPuntuacion()) {
                         Pelicula varaux = arreglo.get(parent(i));
                         arreglo.set(arreglo.get(i), parent(i));
                         arreglo.set(varaux, i);
@@ -64,12 +64,12 @@ public class HeapDouble {
     public void siftDown(int i){
         int maxIndex = i;
         int l = leftChild(i);
-        if(l <= arreglo.size() && arreglo.get(l).getPuntuacion() > arreglo.get(maxIndex).getPuntuacion()){
+        if(l <= size() && arreglo.get(l).getPuntuacion() > arreglo.get(maxIndex).getPuntuacion()){
             maxIndex = l;
         }
         int r = rightChild(i);
-        if(r <= arreglo.size() && arreglo.get(l).getPuntuacion() > arreglo.get(maxIndex).getPuntuacion()){
-            maxIndex = l;
+        if(r <= size() && arreglo.get(r).getPuntuacion() > arreglo.get(maxIndex).getPuntuacion()){
+            maxIndex = r;
         }
         if(i != maxIndex){
             Pelicula varaux = arreglo.get(maxIndex);
@@ -81,13 +81,13 @@ public class HeapDouble {
     
     public void insert(Pelicula p){
         arreglo.add(p);
-        siftUp(arreglo.size());
+        siftUp(size());
     }
     
     public Pelicula extractMax(){
         Pelicula result = arreglo.get(1);
-        arreglo.set(arreglo.get(arreglo.size()), 1);
-        arreglo.remove(arreglo.size());
+        arreglo.set(arreglo.get(size()), 1);
+        arreglo.remove(size());
         siftDown(1);
         return result;
     }
@@ -114,5 +114,8 @@ public class HeapDouble {
     
     public boolean isEmpty(){
         return size() == 0;
+    }
+    public Pelicula get(int i){
+        return arreglo.get(i);              
     }
 }
