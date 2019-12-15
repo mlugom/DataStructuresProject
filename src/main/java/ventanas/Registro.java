@@ -47,130 +47,7 @@ public class Registro {
 
     
 
-    public static void escribirArchivo(ArbolUsuarios entradas, String rutaArchivo) throws IOException {
-        BufferedWriter writerInv = null;
-        try {
-            writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        /*for (int i = 0; i < entradas.size(); i++) {
-            try {
-
-                writerInv.write(entradas.get(i).getNombre() + " " + entradas.get(i).getEdad() + " " + entradas.get(i).getDocumento());
-                writerInv.newLine();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }*/
-        
-        entradas.read(writerInv);
-
-        try {
-            writerInv.close();
-        } catch (IOException ex) {
-
-        }
-
-    }
-
-    public static void escribirArchivopeli(HeapDouble entradas, String rutaArchivo) {
-        BufferedWriter writerInv = null;
-        try {
-            writerInv = new BufferedWriter(new FileWriter(rutaArchivo, false));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        for (int i = 1; i <= entradas.size(); i++) {
-            try {
-
-                writerInv.write(entradas.getArreglo().get(i).getTitulo() + " " + entradas.getArreglo().get(i).getDuracion() + " " + entradas.getArreglo().get(i).getEdadMinima() + " " + entradas.getArreglo().get(i).getPuntuacion());
-                writerInv.newLine();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        try {
-            writerInv.close();
-        } catch (IOException ex) {
-
-        }
-
-    }
-
-      public static ArbolUsuarios leerArchivo(String filePath) throws FileNotFoundException {
-
-        File prueba = new File(filePath);
-        Scanner s = new Scanner(prueba);
-        ArbolUsuarios data = new ArbolUsuarios();
-        String Name_provicional = "";
-        int edad_provicional = 0, id_provicional = 0;
-
-        while(s.hasNext()) {
-
-            Name_provicional = s.next();
-
-            edad_provicional = Integer.parseInt(s.next());
-
-            id_provicional = Integer.parseInt(s.next());
-            data.insert(new Usuario(Name_provicional, id_provicional, id_provicional));
-        }
-        s.close();
-
-        return data;
-    }
-
-    public static HeapDouble leerArchivopel(String filePath) throws FileNotFoundException {
-
-        Scanner s = new Scanner(new File(filePath));
-        HeapDouble data = new HeapDouble();
-        String Name_provicional = "";
-        int duracion_provicional = 0, edadM_provicional = 0;
-        double puntuacion_provicional = 0;
-
-        
-        while(s.hasNext()) {
-            Name_provicional = s.next();
-            duracion_provicional = Integer.parseInt(s.next());
-            edadM_provicional = Integer.parseInt(s.next());
-            puntuacion_provicional = Double.parseDouble(s.next());
-            data.insert(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional,puntuacion_provicional));
-        }
-        s.close();
-
-        return data;
-    }
-    //Farid Está trabajando en esta función
-    /*
-        public static ArrayList<Pelicula> leerArchivopel(String filePath) throws FileNotFoundException {
-
-        Scanner s = new Scanner(new File(filePath));
-        ArrayList<Pelicula> data = new ArrayList<>();
-        String Name_provicional = "";
-        int duracion_provicional = 0, edadM_provicional = 0;
-        int numeroFunciones=0;
-        int[] funciones= new int[numeroFunciones];
-
-        
-        while(s.hasNext()) {
-            Name_provicional = s.next();
-            duracion_provicional = Integer.parseInt(s.next());
-            edadM_provicional = Integer.parseInt(s.next());
-            numeroFunciones=Integer.parseInt(s.next());
-            for (int i = 0; i < numeroFunciones; i++) {
-             funciones[i]=Integer.parseInt(s.next());   
-            }
-        //    data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional,numeroFunciones,funciones));
-            data.add(new Pelicula(Name_provicional, duracion_provicional, edadM_provicional));
-        }
-        s.close();
-
-        return data;
-    }
-    */
+    
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -202,7 +79,7 @@ public class Registro {
 //Acá se comenta y se descomenta (solo necesario la primera vez)
 //
         
-        int cantidad = 10000000;
+        int cantidad = 100;
 //Agregamos clientes
         for (int j = 0; j < cantidad; j++) {
             for (int i = 0; i < 8; i++) {
@@ -419,7 +296,7 @@ public class Registro {
                                                         int edadMinima = sc.nextInt();
                                                         System.out.print("Ingrese puntuación promedio de la película: ");
                                                         double puntuacionAux = sc.nextDouble();
-                                                        arreglo_peliculas.insert(new Pelicula(titulo, duracion, edadMinima, puntuacion));
+                                                        arreglo_peliculas.insert(new Pelicula(titulo, duracion, edadMinima, puntuacionAux));
                                                         System.out.println("Película agregada satisfactoriamente");
                                                         Thread.sleep(2000);
                                                         limpiarPantalla();
@@ -534,7 +411,7 @@ public class Registro {
                             do{
                                 peliculaExists = true;
                                 sel = sc.nextInt();
-                                if(sel>=arreglo_peliculas.size()){
+                                if(sel>arreglo_peliculas.size()){
                                     System.out.println("Dato incorrecto");
                                     peliculaExists = false;
                                 }
@@ -694,13 +571,13 @@ public class Registro {
                         int numPel = sc.nextInt();
 
                         limpiarPantalla();
-                        System.out.println("                                " + arreglo_peliculas.getArreglo().get(numPel - 1).getTitulo());
+                        System.out.println("                                " + arreglo_peliculas.getArreglo().get(numPel).getTitulo());
                         System.out.println("");
 
-                        if (arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().size() != 0) {
+                        if (arreglo_peliculas.getArreglo().get(numPel).getFunciones().size() != 0) {
                             System.out.println("Horarios:");
-                            for (int i = 0; i < arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().size(); i++) {
-                                System.out.println((i+1) + ") " + arreglo_peliculas.getArreglo().get(numPel - 1).getFunciones().get(i).getHora());
+                            for (int i = 0; i < arreglo_peliculas.getArreglo().get(numPel).getFunciones().size(); i++) {
+                                System.out.println((i+1) + ") " + arreglo_peliculas.getArreglo().get(numPel).getFunciones().get(i).getHora());
                             }
                         } else {
                             System.out.println("No hay horarios disponibles.");
