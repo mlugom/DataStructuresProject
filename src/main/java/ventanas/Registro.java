@@ -81,6 +81,21 @@ public class Registro {
         
         int cantidad = 100;
 //Agregamos clientes
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < 8; i++) {
+                int el = (int) (Math.random() * 12);
+                nombre[i] = (char) abc[el];
+
+                name = name + nombre[i];
+            }
+
+            edad = (int) (Math.random() * 80);
+            id = 1000000000 + (int) (Math.random() * 999999999);
+
+            arbolClientes.insert(new Cliente(name, edad, id));
+            name = "";
+        }
+//Agregamos empleados
         for (int j = 0; j < cantidad; j++) {
             for (int i = 0; i < 8; i++) {
                 int el = (int) (Math.random() * 12);
@@ -90,22 +105,7 @@ public class Registro {
             }
 
             edad = (int) (Math.random() * 80);
-            id = 10000000 + (int) (Math.random() * 9999999);
-
-            arbolClientes.insert(new Cliente(name, edad, id));
-            name = "";
-        }
-//Agregamos empleados
-        for (int j = 0; j < 100; j++) {
-            for (int i = 0; i < 8; i++) {
-                int el = (int) (Math.random() * 12);
-                nombre[i] = (char) abc[el];
-
-                name = name + nombre[i];
-            }
-
-            edad = (int) (Math.random() * 80);
-            id = 10000000 + (int) (Math.random() * 9999999);
+            id = (int) (Math.random() * cantidad);
 
             arbolEmpleados.insert(new Empleado(name, edad, id));
             name = "";
@@ -154,11 +154,11 @@ public class Registro {
                     limpiarPantalla();
 
                     System.out.println("Ingrese su documento");
-                    int id_prueba = sc.nextInt();
+                    int id_prueba = sc.nextInt();                    
                     if(arbolEmpleados.contains(id_prueba)){
                         valido = true;
                         rolPrueba = true;
-                    }
+                    }                                   
                     if (!valido) {
                         if(arbolClientes.contains(id_prueba)){
                             valido = true;
@@ -166,7 +166,7 @@ public class Registro {
                         }
                     }
                     if(!valido){
-                        System.out.println("Usuario no encontrado");
+                        System.out.println("Usuario no encontrado");                   
                         Thread.sleep(3000);
                     }
                     if (valido) {
@@ -534,11 +534,11 @@ public class Registro {
                         String clave_dinamico = sc.next();
 
                         if (clave_dinamico.equals("0000")) {
-                            Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);
-                            arbolEmpleados.insert(empleadoAux);
+                            Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);                            
+                            arbolEmpleados.insert(empleadoAux);                            
 
                             System.out.println("Registrado con éxito");
-                            Thread.sleep(2000);
+                            Thread.sleep(3000);
                             limpiarPantalla();
                         } else {
                             System.out.println("Clave incorrecta");
