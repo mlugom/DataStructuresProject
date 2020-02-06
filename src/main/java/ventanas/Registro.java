@@ -55,6 +55,9 @@ public class Registro {
         ArbolUsuarios clientesConAsiento = new ArbolUsuarios();
         ArbolUsuarios arbolClientes = new ArbolUsuarios();
         ArbolUsuarios arbolEmpleados = new ArbolUsuarios();
+        HashTable tablaClientes = new HashTable(10, 10000019);
+        HashTable tablaEmpleados = new HashTable(10, 10000019);
+        
         
         int contadorSala = 0;
         
@@ -90,7 +93,7 @@ public class Registro {
             }
 
             edad = (int) (Math.random() * 80);
-            id = 1000000000 + (int) (Math.random() * 999999999);
+            id = 1000000 + (int) (Math.random() * 9999999); //7 digitos máximo
 
             arbolClientes.insert(new Cliente(name, edad, id));
             name = "";
@@ -105,7 +108,7 @@ public class Registro {
             }
 
             edad = (int) (Math.random() * 80);
-            id = (int) (Math.random() * cantidad);
+            id = 1000000 + (int) (Math.random() * 9999999);
 
             arbolEmpleados.insert(new Empleado(name, edad, id));
             name = "";
@@ -154,7 +157,10 @@ public class Registro {
                     limpiarPantalla();
 
                     System.out.println("Ingrese su documento");
-                    int id_prueba = sc.nextInt();                    
+                    int id_prueba = sc.nextInt();   
+                    
+                    ///////////////////////////////////////AQUI SE DEBE COMENTAR O DESCOMENTAR SEGÚN PREFERENCIA(Arbol o Tabla Hash)
+                    //BUSQUEDA CON ARBOLES(inicie comentario aqui)
                     if(arbolEmpleados.contains(id_prueba)){
                         valido = true;
                         rolPrueba = true;
@@ -164,7 +170,21 @@ public class Registro {
                             valido = true;
                             rolPrueba = false;
                         }
+                    }//finalice comentario aqui
+                    
+                    //BUSQUEDA CON TABLA HASH(inicie comentario aqui)
+                    if(tablaEmpleados.hasKey(id_prueba)){
+                        valido = true;
+                        rolPrueba = true;
                     }
+                    if(!valido){
+                        if(tablaClientes.hasKey(id_prueba)){
+                            valido = true;
+                            rolPrueba = false;
+                        }
+                    }//finalice comentario aqui
+                    
+                    
                     if(!valido){
                         System.out.println("Usuario no encontrado");                   
                         Thread.sleep(3000);
