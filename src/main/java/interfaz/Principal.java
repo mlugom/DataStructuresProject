@@ -12,25 +12,25 @@ import javax.swing.JOptionPane;
  * @author Farid Estepa
  */
 public class Principal extends javax.swing.JFrame {
-    public ArbolUsuarios arbolClientes;
-    public ArbolUsuarios arbolEmpleados;
+    public ArbolUsuariosAVL arbolClientes;
+    public ArbolUsuariosAVL arbolEmpleados;
     public Principal() {
         initComponents();
     }
     
-   public void recibirArbolclientes(ArbolUsuarios arbol){
+   public void recibirArbolclientes(ArbolUsuariosAVL arbol){
         this.arbolClientes=arbol;
     }
   
-        public void recibirArbolEmpleados(ArbolUsuarios arbol){
+        public void recibirArbolEmpleados(ArbolUsuariosAVL arbol){
         this.arbolEmpleados=arbol;
     }
     
-    public ArbolUsuarios sacarArbolClientes(){
+    public ArbolUsuariosAVL sacarArbolClientes(){
         return this.arbolClientes;
     }
     
-    public ArbolUsuarios sacarArbolEmpleados(){
+    public ArbolUsuariosAVL sacarArbolEmpleados(){
         return this.arbolEmpleados;
     }
     

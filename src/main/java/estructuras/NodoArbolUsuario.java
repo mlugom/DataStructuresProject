@@ -15,16 +15,19 @@ public class NodoArbolUsuario {
     private NodoArbolUsuario left;
     private NodoArbolUsuario right;
     private NodoArbolUsuario parent;
+    private int height;
+    
 
     public NodoArbolUsuario(Usuario key) {
         this.key = key;
         this.left = null;
         this.right = null;
         this.parent = null;
+        this.height = 0;
     }
     
     public NodoArbolUsuario(Usuario key, NodoArbolUsuario parent){
-        this(key,null,null,parent);
+        this(key,null,null,parent,0);
     }
 
     public NodoArbolUsuario() {
@@ -32,13 +35,15 @@ public class NodoArbolUsuario {
         this.left = null;
         this.right = null;
         this.parent = null;
+        this.height = 0;
     }
 
-    public NodoArbolUsuario(Usuario key, NodoArbolUsuario left, NodoArbolUsuario right, NodoArbolUsuario parent) {
+    public NodoArbolUsuario(Usuario key, NodoArbolUsuario left, NodoArbolUsuario right, NodoArbolUsuario parent, int height) {
         this.key = key;
         this.left = left;
         this.right = right;
         this.parent = parent;
+        this.height = height;
     }
 
     public Usuario getKey() {
@@ -72,13 +77,15 @@ public class NodoArbolUsuario {
     public void setParent(NodoArbolUsuario parent) {
         this.parent = parent;
     }
-    
-    
-    public int height(){
-        if(this.left == null || this.right == null){
-            return 1;
-        }else{
-            return 1+Math.max(this.left.height(), this.right.height());
-        }
+
+    public int getHeight() {
+        return height;
     }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    
+    
 }

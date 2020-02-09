@@ -22,6 +22,9 @@ public class HashTable {
         this.size = size;
         this.numberOfKeys = 0;
         this.arreglo = new ListaEncadenada[size];
+        for(int i = 0; i < arreglo.length; i++){
+            arreglo[i] = new ListaEncadenada<>();
+        }
         this.a = (int) Math.random()*(p-2) +1;
         this.b = (int) Math.random()*(p-1);
         this.p = p;
@@ -33,32 +36,41 @@ public class HashTable {
     
     public boolean hasKey(int dato){
         ListaEncadenada<Usuario> lista = arreglo[hashFunction(dato)];
-        NodoLista<Usuario> it = lista.getHead().getNext();
-        while(it != null){
-            if(dato == it.getKey().getDocumento()){
-                return true;
+        if(lista.isEmpty()){
+            return false;
+        }else{
+            NodoLista<Usuario> it = lista.getHead().getNext();
+            while(it != null){
+                if(dato == it.getKey().getDocumento()){
+                    return true;
+                }
+                it = it.getNext();
             }
-            it = it.getNext();
+            return false;
         }
-        return false;
     }
     
     public Usuario get(int dato){
         ListaEncadenada<Usuario> lista = arreglo[hashFunction(dato)];
-        NodoLista<Usuario> it = lista.getHead().getNext();
-        while(it != null){
-            if(dato == it.getKey().getDocumento()){
-                return it.getKey();
+        if(lista.isEmpty()){
+            return null;
+        }else{
+            NodoLista<Usuario> it = lista.getHead().getNext();
+            while(it != null){
+                if(dato == it.getKey().getDocumento()){
+                    return it.getKey();
+                }
+                it = it.getNext();
             }
-            it = it.getNext();
+            return null;
         }
-        return null;
     }
     
     public void insert(Usuario usuario){
         ListaEncadenada<Usuario> lista = arreglo[hashFunction(usuario.getDocumento())];
         lista.pushBack(usuario);
         numberOfKeys++;
+        //rehash(this);
     }
     
     public void remove(Usuario dato){
@@ -68,7 +80,7 @@ public class HashTable {
         }
     }
     
-    public void rehash(HashTable t){
+    public HashTable rehash(){
         double loadFactor = size/numberOfKeys;
         if(loadFactor > 0.9){
             HashTable tabla = new HashTable(size*2, p);
@@ -80,7 +92,9 @@ public class HashTable {
                     it = it.getNext();
                 }
             }
-            t = tabla;
+            return tabla;
+        }else{
+            return this;
         }
     }
 }

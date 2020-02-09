@@ -12,14 +12,14 @@ import java.io.IOException;
  *
  * @author manuel
  */
-public class ArbolUsuarios {
+public class ArbolUsuariosAVL {
     private NodoArbolUsuario root;
 
-    public ArbolUsuarios(NodoArbolUsuario root) {
+    public ArbolUsuariosAVL(NodoArbolUsuario root) {
         this.root = root;
     }
 
-    public ArbolUsuarios() {
+    public ArbolUsuariosAVL() {
         this.root = null;
     }
     
@@ -54,11 +54,71 @@ public class ArbolUsuarios {
         }else if(compareResult > 0){
             nodo.setRight(insert(key,nodo.getRight()));
         }
+        
+        nodo.setHeight(1 + Math.max(height(nodo.getLeft()), height(nodo.getRight())));
+        
+        int balance = getBalance(nodo);
+        
+        //Left Left
+        /*if(balance > 1 && key.getDocumento() < nodo.getLeft().getKey().getDocumento()){
+            return rightRotate(nodo);
+        }
+        
+        //Right Right
+        if(balance < -1 && key.getDocumento() > nodo.getRight().getKey().getDocumento()){
+            return leftRotate(nodo);
+        }
+        
+        //Left Right
+        if(balance > 1 && key.getDocumento() > nodo.getLeft().getKey().getDocumento()){
+            nodo.setLeft(leftRotate(nodo.getLeft()));
+            return rightRotate(nodo);
+        }
+        
+        //Right Left
+        if(balance < -1 && key.getDocumento() < nodo.getRight().getKey().getDocumento()){
+            nodo.setRight(rightRotate(nodo.getRight()));
+            return leftRotate(nodo);
+        }*/
         return nodo;
     }
     
     public void insert(Usuario key){
         root = insert(key,root);
+    }
+    
+    private int getBalance(NodoArbolUsuario nodo){
+        if(nodo == null){
+            return 0;
+        }else{
+            return height(nodo.getLeft()) - height(nodo.getRight());
+        }
+    }
+    
+    private NodoArbolUsuario leftRotate(NodoArbolUsuario x){
+        NodoArbolUsuario y = x.getRight();
+        NodoArbolUsuario T2 = y.getLeft();
+        
+        y.setLeft(x);
+        x.setRight(T2);
+        
+        x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+        y.setHeight(1 + Math.max(height(y.getLeft()), height(y.getRight())));
+        
+        return y;
+    }
+    
+    private NodoArbolUsuario rightRotate(NodoArbolUsuario x){
+        NodoArbolUsuario y = x.getLeft();
+        NodoArbolUsuario T2 = y.getRight();
+        
+        x.setRight(x);
+        y.setLeft(T2);
+        
+        x.setHeight(1 + Math.max(height(x.getLeft()), height(x.getRight())));
+        y.setHeight(1 + Math.max(height(y.getLeft()), height(y.getRight())));
+        
+        return y;
     }
     
     private boolean contains(Usuario key, NodoArbolUsuario nodo){
@@ -158,7 +218,7 @@ public class ArbolUsuarios {
         if(nodo == null)
             return -1;
         else
-            return 1+Math.max(height(nodo.getLeft()), height(nodo.getRight()));
+            return nodo.getHeight();
     }
     
     private void leer(NodoArbolUsuario nodo,BufferedWriter writerInv) throws IOException{
@@ -173,4 +233,5 @@ public class ArbolUsuarios {
     public void read(BufferedWriter writerInv) throws IOException{
         leer(this.root,writerInv);
     }
+    
 }

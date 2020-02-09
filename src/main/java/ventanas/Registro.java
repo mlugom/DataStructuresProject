@@ -52,9 +52,9 @@ public class Registro {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         HeapDouble arreglo_peliculas = new HeapDouble();
-        ArbolUsuarios clientesConAsiento = new ArbolUsuarios();
-        ArbolUsuarios arbolClientes = new ArbolUsuarios();
-        ArbolUsuarios arbolEmpleados = new ArbolUsuarios();
+        ArbolUsuariosAVL clientesConAsiento = new ArbolUsuariosAVL();
+        ArbolUsuariosAVL arbolClientes = new ArbolUsuariosAVL();
+        ArbolUsuariosAVL arbolEmpleados = new ArbolUsuariosAVL();
         HashTable tablaClientes = new HashTable(10, 10000019);
         HashTable tablaEmpleados = new HashTable(10, 10000019);
         
@@ -82,7 +82,7 @@ public class Registro {
 //Acá se comenta y se descomenta (solo necesario la primera vez)
 //
         
-        int cantidad = 100;
+        int cantidad = 10000000;
 //Agregamos clientes
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 8; i++) {
@@ -93,7 +93,7 @@ public class Registro {
             }
 
             edad = (int) (Math.random() * 80);
-            id = 1000000 + (int) (Math.random() * 9999999); //7 digitos máximo
+            id = 1000000 + (int) (Math.random() * 8999999); //7 digitos máximo
 
             arbolClientes.insert(new Cliente(name, edad, id));
             name = "";
@@ -108,7 +108,7 @@ public class Registro {
             }
 
             edad = (int) (Math.random() * 80);
-            id = 1000000 + (int) (Math.random() * 9999999);
+            id = 1000000 + (int) (Math.random() * 8999999);
 
             arbolEmpleados.insert(new Empleado(name, edad, id));
             name = "";
@@ -161,7 +161,10 @@ public class Registro {
                     
                     ///////////////////////////////////////AQUI SE DEBE COMENTAR O DESCOMENTAR SEGÚN PREFERENCIA(Arbol o Tabla Hash)
                     //BUSQUEDA CON ARBOLES(inicie comentario aqui)
+                    long time1 = System.nanoTime();
+                    long time2 = 0;
                     if(arbolEmpleados.contains(id_prueba)){
+                        time2 = System.nanoTime();
                         valido = true;
                         rolPrueba = true;
                     }                                   
@@ -170,10 +173,10 @@ public class Registro {
                             valido = true;
                             rolPrueba = false;
                         }
-                    }//finalice comentario aqui
+                    }//finalice comentario aqui*/
                     
                     //BUSQUEDA CON TABLA HASH(inicie comentario aqui)
-                    if(tablaEmpleados.hasKey(id_prueba)){
+                    /*if(tablaEmpleados.hasKey(id_prueba)){
                         valido = true;
                         rolPrueba = true;
                     }
@@ -182,7 +185,7 @@ public class Registro {
                             valido = true;
                             rolPrueba = false;
                         }
-                    }//finalice comentario aqui
+                    }//finalice comentario aqui*/
                     
                     
                     if(!valido){
@@ -195,6 +198,7 @@ public class Registro {
                             do {
                                 Thread.sleep(1000);
                                 limpiarPantalla();
+                                System.out.println(time2-time1);
                                 System.out.println("Bienvenido, señor(a) empleado/a. Seleccione la acción a realizar");
                                 System.out.println("1. Actualizar fecha");
                                 System.out.println("2. Actualizar hora");
@@ -555,7 +559,9 @@ public class Registro {
 
                         if (clave_dinamico.equals("0000")) {
                             Empleado empleadoAux = new Empleado(nombre_dinamico, edad_dinamico, id_dinamico);                            
-                            arbolEmpleados.insert(empleadoAux);                            
+                            arbolEmpleados.insert(empleadoAux);   
+                            tablaEmpleados.insert(empleadoAux);
+                            tablaEmpleados = tablaEmpleados.rehash();
 
                             System.out.println("Registrado con éxito");
                             Thread.sleep(3000);
@@ -569,6 +575,8 @@ public class Registro {
                     } else {
                         Cliente clienteAux = new Cliente(nombre_dinamico, edad_dinamico, id_dinamico);
                         arbolClientes.insert(clienteAux);
+                        tablaClientes.insert(clienteAux);
+                        tablaClientes = tablaClientes.rehash();
 
                         System.out.println("Registrado con éxito");
                         Thread.sleep(2000);
