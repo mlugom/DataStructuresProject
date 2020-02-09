@@ -82,7 +82,7 @@ public class Registro {
 //Acá se comenta y se descomenta (solo necesario la primera vez)
 //
         
-        int cantidad = 10000000;
+        int cantidad = 1000;
 //Agregamos clientes
         for (int j = 0; j < 10; j++) {
             for (int i = 0; i < 8; i++) {
@@ -161,8 +161,8 @@ public class Registro {
                     
                     ///////////////////////////////////////AQUI SE DEBE COMENTAR O DESCOMENTAR SEGÚN PREFERENCIA(Arbol o Tabla Hash)
                     //BUSQUEDA CON ARBOLES(inicie comentario aqui)
+                    /*long time2 = 0;
                     long time1 = System.nanoTime();
-                    long time2 = 0;
                     if(arbolEmpleados.contains(id_prueba)){
                         time2 = System.nanoTime();
                         valido = true;
@@ -176,7 +176,10 @@ public class Registro {
                     }//finalice comentario aqui*/
                     
                     //BUSQUEDA CON TABLA HASH(inicie comentario aqui)
-                    /*if(tablaEmpleados.hasKey(id_prueba)){
+                    long time2 = 0;
+                    long time1 = System.nanoTime();                
+                    if(tablaEmpleados.hasKey(id_prueba)){
+                        time2 = System.nanoTime();
                         valido = true;
                         rolPrueba = true;
                     }
@@ -198,7 +201,7 @@ public class Registro {
                             do {
                                 Thread.sleep(1000);
                                 limpiarPantalla();
-                                System.out.println(time2-time1);
+                                //System.out.println(time2-time1); // Esta linea corresponde a pruebas. Descomentar si así se desea
                                 System.out.println("Bienvenido, señor(a) empleado/a. Seleccione la acción a realizar");
                                 System.out.println("1. Actualizar fecha");
                                 System.out.println("2. Actualizar hora");
